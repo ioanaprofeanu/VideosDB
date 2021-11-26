@@ -1,18 +1,28 @@
 package main;
 
+import actor.Actor;
 import checker.Checkstyle;
 import checker.Checker;
 import common.Constants;
+import entertainment.Movie;
+import entertainment.Serial;
+import fileio.ActorInputData;
 import fileio.Input;
 import fileio.InputLoader;
 import fileio.Writer;
 import org.json.simple.JSONArray;
+import repository.ActorsRepo;
+import repository.MoviesRepo;
+import repository.SerialsRepo;
+import repository.UsersRepo;
+import user.User;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -71,7 +81,11 @@ public final class Main {
         JSONArray arrayResult = new JSONArray();
 
         //TODO add here the entry point to your implementation
-
+        ActorsRepo actorsRepo = new ActorsRepo(input);
+        MoviesRepo moviesRepo = new MoviesRepo(input);
+        SerialsRepo serialsRepo = new SerialsRepo(input);
+        UsersRepo users = new UsersRepo(input);
+        
         fileWriter.closeJSON(arrayResult);
     }
 }
