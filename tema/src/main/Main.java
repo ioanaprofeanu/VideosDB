@@ -1,15 +1,13 @@
 package main;
 
+import action.Command;
 import actor.Actor;
 import checker.Checkstyle;
 import checker.Checker;
 import common.Constants;
 import entertainment.Movie;
 import entertainment.Serial;
-import fileio.ActorInputData;
-import fileio.Input;
-import fileio.InputLoader;
-import fileio.Writer;
+import fileio.*;
 import org.json.simple.JSONArray;
 import repository.ActorsRepo;
 import repository.MoviesRepo;
@@ -84,8 +82,29 @@ public final class Main {
         ActorsRepo actorsRepo = new ActorsRepo(input);
         MoviesRepo moviesRepo = new MoviesRepo(input);
         SerialsRepo serialsRepo = new SerialsRepo(input);
-        UsersRepo users = new UsersRepo(input);
-        
+        UsersRepo usersRepo = new UsersRepo(input);
+
+        Command command = new Command();
+        for (ActionInputData inputAction : input.getCommands()) {
+            switch (inputAction.getActionType()) {
+                case Constants.COMMAND -> {
+                    switch (inputAction.getType()) {
+                        case Constants.FAVORITE -> {
+                            arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
+                                    null, command.addFavorite(inputAction, usersRepo, moviesRepo, serialsRepo)));
+                        }
+                        case Constants.VIEW -> {
+                            arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
+                                    null, command.addView(inputAction, usersRepo, moviesRepo, serialsRepo)));
+                        }
+                        case Constants.RATING -> {
+                            arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
+                                    null, command.addRating(inputAction, usersRepo, moviesRepo, serialsRepo)));
+                        }
+                    }
+                }
+            }
+        }
         fileWriter.closeJSON(arrayResult);
     }
 }

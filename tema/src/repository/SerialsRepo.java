@@ -1,5 +1,6 @@
 package repository;
 
+import entertainment.Movie;
 import entertainment.Serial;
 import fileio.Input;
 import fileio.SerialInputData;
@@ -16,7 +17,9 @@ public class SerialsRepo {
     public SerialsRepo(Input input) {
         serialsData = new ArrayList<>();
         for (SerialInputData inputSerial : input.getSerials()) {
-            Serial newSerial = new Serial(inputSerial.getTitle(), inputSerial.getCast(), inputSerial.getGenres(), inputSerial.getNumberSeason(), inputSerial.getSeasons(), inputSerial.getYear());
+            Serial newSerial = new Serial(inputSerial.getTitle(), inputSerial.getCast(),
+                    inputSerial.getGenres(), inputSerial.getNumberSeason(),
+                    inputSerial.getSeasons(), inputSerial.getYear());
             serialsData.add(newSerial);
         }
     }
@@ -27,5 +30,19 @@ public class SerialsRepo {
 
     public void setSerialsData(List<Serial> serialsData) {
         this.serialsData = serialsData;
+    }
+
+    /**
+     * Find the serial with a given title
+     * @param serialTitle the searched title of the serial
+     * @return the found serial
+     */
+    public Serial getSerialByTitle(String serialTitle) {
+        for (Serial serial : serialsData) {
+            if (equals(serial.getTitle().equals(serialTitle))) {
+                return serial;
+            }
+        }
+        return null;
     }
 }

@@ -55,6 +55,10 @@ public class Actor {
         return awards;
     }
 
+    public void setAwards(Map<ActorsAwards, Integer> awards) {
+        this.awards = awards;
+    }
+
     public String getCareerDescription() {
         return careerDescription;
     }

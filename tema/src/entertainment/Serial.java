@@ -9,11 +9,11 @@ public class Serial extends Show {
     /**
      * Number of seasons
      */
-    private int numberOfSeasons;
+    private final int numberOfSeasons;
     /**
      * Season list
      */
-    private ArrayList<Season> seasons;
+    private final ArrayList<Season> seasons;
 
     public Serial(final String title, final ArrayList<String> cast,
                   final ArrayList<String> genres,
@@ -34,13 +34,17 @@ public class Serial extends Show {
 
     /**
      * Add new rating to a season's ratings list
+     * @param seasonNumber the number of the season
+     * @param grade the rating
      */
     public void addSeasonRating(int seasonNumber, double grade) {
         this.seasons.get(seasonNumber).getRatings().add(grade);
     }
 
     /**
-     * Get the average rating of a season
+     * Get the average rating of a season within a serial
+     * @param seasonNumber the order number of the season
+     * @return the average rating of a season
      */
     public double getAverageSeasonRating(int seasonNumber) {
         double sumOfGrades = 0;
@@ -52,6 +56,7 @@ public class Serial extends Show {
 
     /**
      * Get the average rating of a serial
+     * @return the average rating of a serial
      */
     public double getAverageRating() {
         double sumOfGrades = 0;
@@ -63,8 +68,9 @@ public class Serial extends Show {
 
     /**
      * Get the duration of a serial
+     * @return the total duration of a serial
      */
-    public int getSeasonDuration() {
+    public int getSerialDuration() {
         int sumOfDurations = 0;
         for (Season season : seasons) {
             sumOfDurations += season.getDuration();

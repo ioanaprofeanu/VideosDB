@@ -10,7 +10,7 @@ public class Movie extends Show {
     /**
      * Duration in minutes of a season
      */
-    private int duration;
+    private final int duration;
     /**
      * List of all ratings the movie was given
      */
@@ -27,15 +27,12 @@ public class Movie extends Show {
         return duration;
     }
 
-    /**
-     * Add new rating to the movie's ratings list
-     */
-    public void addRating(double rating) {
-        this.ratings.add(rating);
+    public List<Double> getRatings() {
+        return ratings;
     }
-
     /**
      * Get the average rating of a movie
+     * @return the average rating
      */
     public double getAverageRating() {
         double sumOfRatings = 0;

@@ -37,15 +37,23 @@ public abstract class Show {
         this.year = year;
         this.cast = cast;
         this.genres = genres;
+        this.viewNumber = 0;
+        this.favoriteNumber = 0;
     }
 
     public abstract double getAverageRating();
 
-    public void addViewNumber() {
+    /**
+     * increase the number of views for the show
+     */
+    public void increaseViewNumber() {
         viewNumber++;
     }
 
-    public void addFavoriteNumber() {
+    /**
+     * increase the number of favorites for the show
+     */
+    public void increaseFavoriteNumber() {
         favoriteNumber++;
     }
 

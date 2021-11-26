@@ -4,6 +4,7 @@ import fileio.Input;
 import fileio.UserInputData;
 import user.User;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,5 +30,19 @@ public class UsersRepo {
 
     public void setUsersData(ArrayList<User> usersData) {
         this.usersData = usersData;
+    }
+
+    /**
+     * Find the user with a given name
+     * @param username the searched name of the user
+     * @return the found user
+     */
+    public User getUserByUserame(final String username) {
+        for (User user : usersData) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
     }
 }
