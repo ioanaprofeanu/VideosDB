@@ -4,6 +4,7 @@ import fileio.Input;
 import fileio.UserInputData;
 import user.User;
 
+import java.sql.Array;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +38,26 @@ public class UsersRepo {
      * @param username the searched name of the user
      * @return the found user
      */
-    public User getUserByUserame(final String username) {
+    public User getUserByUsername(final String username) {
         for (User user : usersData) {
             if (user.getUsername().equals(username)) {
                 return user;
             }
         }
         return null;
+    }
+
+    /**
+     * Gets all users who have given a review
+     * @return list of all reviewers
+     */
+    public ArrayList<User> getReviewersUsers () {
+        ArrayList<User> reviewersList = new ArrayList<User>();
+        for (User user : usersData) {
+            if (user.getRatedMovies().size() != 0) {
+                reviewersList.add(user);
+            }
+        }
+        return reviewersList;
     }
 }

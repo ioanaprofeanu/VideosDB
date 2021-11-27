@@ -43,6 +43,8 @@ public abstract class Show {
 
     public abstract double getAverageRating();
 
+    public abstract int getDuration();
+
     /**
      * increase the number of views for the show
      */

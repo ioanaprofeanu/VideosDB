@@ -80,6 +80,12 @@ public class User {
         return this.history.get(title);
     }
 
+    /**
+     * @return the number of shows rated my a user
+     */
+    public int numberOfRatedShows(){
+        return ratedMovies.size();
+    }
     public String getUsername() {
         return username;
     }

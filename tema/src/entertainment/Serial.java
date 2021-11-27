@@ -70,7 +70,7 @@ public class Serial extends Show {
      * Get the duration of a serial
      * @return the total duration of a serial
      */
-    public int getSerialDuration() {
+    public int getDuration() {
         int sumOfDurations = 0;
         for (Season season : seasons) {
             sumOfDurations += season.getDuration();

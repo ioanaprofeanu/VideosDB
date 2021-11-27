@@ -12,7 +12,7 @@ public class Command {
                             SerialsRepo serialsRepo) {
         String message = null;
         String showTitle = inputAction.getTitle();
-        User user = usersRepo.getUserByUserame(inputAction.getUsername());
+        User user = usersRepo.getUserByUsername(inputAction.getUsername());
 
         if (user != null) {
             if (!user.viewedShow(showTitle)) {
@@ -40,7 +40,7 @@ public class Command {
                           SerialsRepo serialsRepo) {
         String message = null;
         String showTitle = inputAction.getTitle();
-        User user = usersRepo.getUserByUserame(inputAction.getUsername());
+        User user = usersRepo.getUserByUsername(inputAction.getUsername());
 
         if (user != null) {
             // increase or add the views in the history hashmap
@@ -64,7 +64,7 @@ public class Command {
         String message = null;
         String showTitle = inputAction.getTitle();
         double grade = inputAction.getGrade();
-        User user = usersRepo.getUserByUserame(inputAction.getUsername());
+        User user = usersRepo.getUserByUsername(inputAction.getUsername());
 
         if (user != null) {
             // if the user has seen the show

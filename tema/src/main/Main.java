@@ -1,6 +1,7 @@
 package main;
 
 import action.Command;
+import action.Query.QueryUser;
 import actor.Actor;
 import checker.Checkstyle;
 import checker.Checker;
@@ -85,6 +86,7 @@ public final class Main {
         UsersRepo usersRepo = new UsersRepo(input);
 
         Command command = new Command();
+        QueryUser queryUser = new QueryUser();
         for (ActionInputData inputAction : input.getCommands()) {
             switch (inputAction.getActionType()) {
                 case Constants.COMMAND -> {
@@ -100,6 +102,14 @@ public final class Main {
                         case Constants.RATING -> {
                             arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
                                     null, command.addRating(inputAction, usersRepo, moviesRepo, serialsRepo)));
+                        }
+                    }
+                }
+                case Constants.QUERY -> {
+                    switch (inputAction.getObjectType()) {
+                        case Constants.USERS -> {
+                            arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
+                                    null, queryUser.applyQuery(inputAction, usersRepo)));
                         }
                     }
                 }
