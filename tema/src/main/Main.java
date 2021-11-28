@@ -2,6 +2,7 @@ package main;
 
 import action.Command;
 import action.Query.QueryUser;
+import action.Query.QueryVideo;
 import actor.Actor;
 import checker.Checkstyle;
 import checker.Checker;
@@ -85,8 +86,13 @@ public final class Main {
         SerialsRepo serialsRepo = new SerialsRepo(input);
         UsersRepo usersRepo = new UsersRepo(input);
 
+        // initialise the view and favorite count of all serials and movies
+        moviesRepo.initialiseViewNumber(usersRepo);
+        moviesRepo.initialiseFavoriteNumber(usersRepo);
+        serialsRepo.initialiseViewNumber(usersRepo);
+        serialsRepo.initialiseFavoriteNumber(usersRepo);
+
         Command command = new Command();
-        QueryUser queryUser = new QueryUser();
         for (ActionInputData inputAction : input.getCommands()) {
             switch (inputAction.getActionType()) {
                 case Constants.COMMAND -> {
@@ -108,8 +114,14 @@ public final class Main {
                 case Constants.QUERY -> {
                     switch (inputAction.getObjectType()) {
                         case Constants.USERS -> {
+                            QueryUser queryUser = new QueryUser();
                             arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
                                     null, queryUser.applyQuery(inputAction, usersRepo)));
+                        }
+                        case Constants.MOVIES, Constants.SHOWS -> {
+                            QueryVideo queryVideo = new QueryVideo();
+                            arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
+                                    null, queryVideo.applyQuery(inputAction, moviesRepo, serialsRepo, inputAction.getCriteria())));
                         }
                     }
                 }

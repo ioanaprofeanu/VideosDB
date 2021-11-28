@@ -81,4 +81,11 @@ public final class Constants {
     public static final String RATING = "rating";
     public static final String ASC = "asc";
     public static final String DESC = "desc";
+    public static final String RATINGS = "ratings";
+    public static final String LONGEST = "longest";
+    public static final String MOST_VIEWED = "most_viewed";
+    public static final int YEAR_FIELD_FILTERS = 0;
+    public static final int GENRE_FIELD_FILTERS = 1;
+    public static final int WORDS_FIELD_FILTERS = 2;
+    public static final int AWARDS_FIELD_FILTERS = 3;
 }

@@ -35,6 +35,10 @@ public class Movie extends Show {
      * @return the average rating
      */
     public double getAverageRating() {
+        if (ratings == null) {
+            return 0;
+        }
+
         double sumOfRatings = 0;
         for (double rating : ratings) {
             sumOfRatings += rating;
