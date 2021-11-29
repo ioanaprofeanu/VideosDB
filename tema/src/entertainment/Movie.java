@@ -39,6 +39,9 @@ public class Movie extends Show {
         if (ratings == null) {
             return 0;
         }
+        if (ratings.size() == 0) {
+            return 0;
+        }
         double sumOfRatings = 0;
         for (double rating : ratings) {
             sumOfRatings += rating;

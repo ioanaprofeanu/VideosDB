@@ -147,13 +147,13 @@ public class QueryVideo {
      * @param sortedShowList a sorted input show list
      * @return the list filtered by genre and year
      */
-    public ArrayList<Show> filteredSortedShows(ActionInputData inputAction, ArrayList<Show> sortedShowList) {
-        ArrayList<Show> filteredSortedList = new ArrayList<>(sortedShowList);
+    public ArrayList<Show> filteredSortedShows(ActionInputData inputAction, ArrayList<Show> showList) {
+        ArrayList<Show> filteredSortedList = new ArrayList<>(showList);
         List<String> genreList = inputAction.getFilters().get(Constants.GENRE_FIELD_FILTERS);
         List<String> yearList = inputAction.getFilters().get(Constants.YEAR_FIELD_FILTERS);
 
         // for each show from the sorted show list
-        for (Show show : sortedShowList) {
+        for (Show show : showList) {
             // if the input genre list is not null
             if (genreList.get(0) != null) {
                 // for each genre in the genre list
