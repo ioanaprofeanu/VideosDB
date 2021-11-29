@@ -143,18 +143,15 @@ public class QueryVideo {
 
     /**
      * Filter a show list by genre and year
-     * @param inputData
+     * @param inputAction
      * @param sortedShowList a sorted input show list
      * @return the list filtered by genre and year
      */
-    public ArrayList<Show> filteredSortedShows(ActionInputData inputData, ArrayList<Show> sortedShowList) {
+    public ArrayList<Show> filteredSortedShows(ActionInputData inputAction, ArrayList<Show> sortedShowList) {
         ArrayList<Show> filteredSortedList = new ArrayList<>(sortedShowList);
-        List<String> genreList = inputData.getFilters().get(Constants.GENRE_FIELD_FILTERS);
-        List<String> yearList = inputData.getFilters().get(Constants.YEAR_FIELD_FILTERS);
+        List<String> genreList = inputAction.getFilters().get(Constants.GENRE_FIELD_FILTERS);
+        List<String> yearList = inputAction.getFilters().get(Constants.YEAR_FIELD_FILTERS);
 
-        for (Show show : sortedShowList) {
-            System.out.println(show.getTitle());
-        }
         // for each show from the sorted show list
         for (Show show : sortedShowList) {
             // if the input genre list is not null
@@ -176,14 +173,11 @@ public class QueryVideo {
                 }
             }
         }
-        for (Show show : filteredSortedList) {
-            System.out.println(show.getTitle());
-        }
         return filteredSortedList;
     }
 
     /**
-     * Returns the ratings list filtered and sorted
+     * Returns the list of shows filtered and sorted
      * @param inputAction
      * @param moviesRepo
      * @param serialsRepo

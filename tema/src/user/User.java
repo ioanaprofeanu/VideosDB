@@ -50,7 +50,7 @@ public class User {
     public boolean viewedShow(String title) {
         for (Map.Entry<String, Integer> entry : history.entrySet()) {
             if(entry.getKey().equals(title)) {
-                if (entry.getValue() != Constants.ZERO) {
+                if (entry.getValue() > 0) {
                     return true;
                 }
             }

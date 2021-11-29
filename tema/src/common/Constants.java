@@ -84,6 +84,7 @@ public final class Constants {
     public static final String RATINGS = "ratings";
     public static final String LONGEST = "longest";
     public static final String MOST_VIEWED = "most_viewed";
+    public static final String AVERAGE = "average";
     public static final int YEAR_FIELD_FILTERS = 0;
     public static final int GENRE_FIELD_FILTERS = 1;
     public static final int WORDS_FIELD_FILTERS = 2;

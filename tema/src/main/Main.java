@@ -1,6 +1,7 @@
 package main;
 
 import action.Command;
+import action.Query.QueryActor;
 import action.Query.QueryUser;
 import action.Query.QueryVideo;
 import actor.Actor;
@@ -113,15 +114,20 @@ public final class Main {
                 }
                 case Constants.QUERY -> {
                     switch (inputAction.getObjectType()) {
-                        case Constants.USERS -> {
-                            QueryUser queryUser = new QueryUser();
+                        case Constants.ACTORS -> {
+                            QueryActor queryActor = new QueryActor();
                             arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
-                                    null, queryUser.applyQuery(inputAction, usersRepo)));
+                                    null, queryActor.applyQuery(inputAction, actorsRepo, moviesRepo, serialsRepo, inputAction.getCriteria())));
                         }
                         case Constants.MOVIES, Constants.SHOWS -> {
                             QueryVideo queryVideo = new QueryVideo();
                             arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
                                     null, queryVideo.applyQuery(inputAction, moviesRepo, serialsRepo, inputAction.getCriteria())));
+                        }
+                        case Constants.USERS -> {
+                            QueryUser queryUser = new QueryUser();
+                            arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
+                                    null, queryUser.applyQuery(inputAction, usersRepo)));
                         }
                     }
                 }

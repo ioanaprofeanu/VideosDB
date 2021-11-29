@@ -1,6 +1,10 @@
 package actor;
 
+import entertainment.Movie;
+import entertainment.Serial;
 import fileio.ActorInputData;
+import repository.MoviesRepo;
+import repository.SerialsRepo;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -25,6 +29,10 @@ public class Actor {
      * awards won by the actor
      */
     private Map<ActorsAwards, Integer> awards;
+    /**
+     * average rating of all shows an actor played in
+     */
+    private double rating;
 
     public Actor(final String name, final String careerDescription,
                  final ArrayList<String> filmography,
@@ -33,6 +41,50 @@ public class Actor {
         this.careerDescription = careerDescription;
         this.filmography = filmography;
         this.awards = awards;
+        this.rating = 0;
+    }
+
+    /**
+     * Set the average rating of the shows
+     * an actor plays in
+     * @param moviesRepo the movies database
+     * @param serialsRepo the serials database
+     * @return the average
+     */
+    public void setAverageActorRating(MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
+        double sumOfRatings = 0;
+        int noRatings = 0;
+        for (String title : this.filmography) {
+            for (Movie movie : moviesRepo.getMoviesData()) {
+                if (movie.getAverageRating() != 0) {
+                    if (movie.getTitle().equals(title)) {
+                        noRatings++;
+                        sumOfRatings += movie.getAverageRating();
+                    }
+                }
+            }
+            for (Serial serial : serialsRepo.getSerialsData()) {
+                if (serial.getAverageRating() != 0) {
+                    if (serial.getTitle().equals(title)) {
+                        noRatings++;
+                        sumOfRatings++;
+                    }
+                }
+            }
+        }
+        this.rating = sumOfRatings / noRatings;
+    }
+
+    /**
+     * Get the number of awards an actor has won
+     * @return
+     */
+    public int getNumberOfAwards() {
+        int noAwards = 0;
+        for (Map.Entry<ActorsAwards, Integer> entry : awards.entrySet()) {
+            noAwards += entry.getValue();
+        }
+        return noAwards;
     }
 
     public String getName() {
@@ -65,6 +117,10 @@ public class Actor {
 
     public void setCareerDescription(final String careerDescription) {
         this.careerDescription = careerDescription;
+    }
+
+    public double getRating() {
+        return rating;
     }
 
     @Override

@@ -74,6 +74,7 @@ public class Command {
                     if (moviesRepo.getMovieByTitle(showTitle) != null) {
                         // add rating to the list of ratings
                         moviesRepo.getMovieByTitle(showTitle).getRatings().add(grade);
+                        user.getRatedMovies().add(showTitle);
                     } else if (serialsRepo.getSerialByTitle(showTitle) != null) {
                         // add rating to the list of ratings of the serial's season
                         serialsRepo.getSerialByTitle(showTitle).addSeasonRating(inputAction.getSeasonNumber(), grade);
