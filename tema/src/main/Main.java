@@ -4,6 +4,7 @@ import action.Command;
 import action.Query.QueryActor;
 import action.Query.QueryUser;
 import action.Query.QueryVideo;
+import action.Recommendation;
 import actor.Actor;
 import checker.Checkstyle;
 import checker.Checker;
@@ -93,10 +94,10 @@ public final class Main {
         serialsRepo.initialiseViewNumber(usersRepo);
         serialsRepo.initialiseFavoriteNumber(usersRepo);
 
-        Command command = new Command();
         for (ActionInputData inputAction : input.getCommands()) {
             switch (inputAction.getActionType()) {
                 case Constants.COMMAND -> {
+                    Command command = new Command();
                     switch (inputAction.getType()) {
                         case Constants.FAVORITE -> {
                             arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
@@ -130,6 +131,11 @@ public final class Main {
                                     null, queryUser.applyQuery(inputAction, usersRepo)));
                         }
                     }
+                }
+                case Constants.RECOMMENDATION -> {
+                    Recommendation recommendation = new Recommendation();
+                    arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
+                            null, recommendation.applyRecommendation(inputAction, usersRepo, moviesRepo, serialsRepo, inputAction.getType())));
                 }
             }
         }

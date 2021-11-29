@@ -85,6 +85,10 @@ public final class Constants {
     public static final String LONGEST = "longest";
     public static final String MOST_VIEWED = "most_viewed";
     public static final String AVERAGE = "average";
+    public static final String STANDARD = "standard";
+    public static final String BEST_UNSEEN = "best_unseen";
+    public static final String POPULAR = "popular";
+    public static final String SEARCH = "search";
     public static final int YEAR_FIELD_FILTERS = 0;
     public static final int GENRE_FIELD_FILTERS = 1;
     public static final int WORDS_FIELD_FILTERS = 2;
