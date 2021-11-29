@@ -8,6 +8,8 @@ import repository.ActorsRepo;
 import repository.MoviesRepo;
 import repository.SerialsRepo;
 
+import javax.sound.midi.Soundbank;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -98,43 +100,6 @@ public class QueryActor {
         }
     }
 
-    /**
-     * Returns the list of actors filtered and sorted
-     * @param inputData
-     * @param sortedActorList
-     * @return
-     */
-    public ArrayList<Actor> filteredSortedActors(ActionInputData inputData, ArrayList<Actor> sortedActorList) {
-        ArrayList<Actor> filteredSortedList = new ArrayList<>(sortedActorList);
-        List<String> wordsList = inputData.getFilters().get(Constants.WORDS_FIELD_FILTERS);
-        List<String> awardsList = inputData.getFilters().get(Constants.AWARDS_FIELD_FILTERS);
-
-        // for each actor from the sorted actors list
-        for (Actor actor : sortedActorList) {
-            // if the input words list is not null
-            if (wordsList != null) {
-                // for each word in the list
-                for (String word : wordsList) {
-                    // check if the current actor's description contains the given word;
-                    // otherwise, remove it from the filtered and sorted list
-                    if (!actor.getCareerDescription().contains(word)) {
-                        filteredSortedList.remove(actor);
-                    }
-                }
-            }
-            if (awardsList != null) {
-                for (String award : awardsList) {
-                    // check if the current actors has received the given award;
-                    // otherwise, remove it from the filtered and sorted list
-                    if (!actor.getAwards().containsKey(award)) {
-                        filteredSortedList.remove(actor);
-                    }
-                }
-            }
-        }
-        return filteredSortedList;
-    }
-
     public ArrayList<Actor> getAverageActorList(ActionInputData inputAction, ActorsRepo actorsRepo,
                                                MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
         actorsRepo.setActorsRating(moviesRepo, serialsRepo);
@@ -142,7 +107,7 @@ public class QueryActor {
 
         if (inputAction.getSortType().equals(Constants.ASC)) {
             Collections.sort(sortedActorsList, new QueryActor.SortActorByAverageAsc());
-        } else if (inputAction.getActionType().equals(Constants.DESC)) {
+        } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(sortedActorsList, new QueryActor.SortActorByAverageDesc());
         }
         return sortedActorsList;
@@ -172,7 +137,7 @@ public class QueryActor {
 
         if (inputAction.getSortType().equals(Constants.ASC)) {
             Collections.sort(filteredSortedList, new QueryActor.SortActorByAwardAsc());
-        } else if (inputAction.getActionType().equals(Constants.DESC)) {
+        } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(filteredSortedList, new QueryActor.SortActorByAwardDesc());
         }
         return filteredSortedList;
@@ -202,7 +167,7 @@ public class QueryActor {
 
         if (inputAction.getSortType().equals(Constants.ASC)) {
             Collections.sort(filteredSortedList, new QueryActor.SortActorByAwardAsc());
-        } else if (inputAction.getActionType().equals(Constants.DESC)) {
+        } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(filteredSortedList, new QueryActor.SortActorByAwardDesc());
         }
         return filteredSortedList;
@@ -229,10 +194,12 @@ public class QueryActor {
         }
 
         int numberListElem = inputAction.getNumber();
+
         // if the list is smaller than the wanted size
         if (finalSortedActors.size() < numberListElem) {
             numberListElem = finalSortedActors.size();
         }
+
         // print titles
         for (int i = 0; i < numberListElem; i++) {
             message.append(finalSortedActors.get(i).getName());

@@ -43,16 +43,19 @@ public class QueryUser {
         message.append("Query result: [");
         ArrayList<User> reviewersList = usersRepo.getReviewersUsers();
         int numberListElem = inputAction.getNumber();
+
         // if the order is ascending
         if (inputAction.getSortType().equals(Constants.ASC)) {
             Collections.sort(reviewersList, new SortUserByRatingAsc());
-        } else if (inputAction.getActionType().equals(Constants.DESC)) {
+        } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(reviewersList, new SortUserByRatingDesc());
         }
+
         // if the list is smaller than the wanted size
         if (reviewersList.size() < numberListElem) {
             numberListElem = reviewersList.size();
         }
+
         // print username
         for (int i = 0; i < numberListElem; i++) {
             message.append(reviewersList.get(i).getUsername());

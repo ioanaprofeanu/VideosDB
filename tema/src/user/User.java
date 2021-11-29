@@ -26,10 +26,9 @@ public class User {
      */
     private ArrayList<String> favoriteMovies;
     /**
-     * Movies added to favorites
+     * Rated movies
      */
     private ArrayList<String> ratedMovies;
-
 
     public User(final String username, final String subscriptionType,
                 final Map<String, Integer> history,
@@ -38,7 +37,7 @@ public class User {
         this.subscriptionType = subscriptionType;
         this.favoriteMovies = favoriteMovies;
         this.history = history;
-        ratedMovies = new ArrayList<>();
+        this.ratedMovies = new ArrayList<>();
     }
 
     /**

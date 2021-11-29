@@ -1,10 +1,17 @@
 package action;
 
+import actor.Actor;
+import entertainment.Movie;
+import entertainment.Serial;
 import fileio.ActionInputData;
+import repository.ActorsRepo;
 import repository.MoviesRepo;
 import repository.SerialsRepo;
 import repository.UsersRepo;
 import user.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Command {
     public String addFavorite(ActionInputData inputAction,
@@ -69,23 +76,41 @@ public class Command {
         if (user != null) {
             // if the user has seen the show
             if (user.viewedShow(showTitle)) {
-                // if the show isn't rated yet
-                if (!user.getRatedMovies().contains(showTitle)) {
-                    if (moviesRepo.getMovieByTitle(showTitle) != null) {
+                // if the show is a movie
+                if (moviesRepo.getMovieByTitle(showTitle) != null) {
+                    // if the user hasn't watched the movie yet
+                    if (!user.getRatedMovies().contains(showTitle)) {
                         // add rating to the list of ratings
                         moviesRepo.getMovieByTitle(showTitle).getRatings().add(grade);
                         user.getRatedMovies().add(showTitle);
-                    } else if (serialsRepo.getSerialByTitle(showTitle) != null) {
-                        // add rating to the list of ratings of the serial's season
-                        serialsRepo.getSerialByTitle(showTitle).addSeasonRating(inputAction.getSeasonNumber(), grade);
+                    } else {
+                        message = "error -> " + showTitle + " has been already rated";
+                        return message;
                     }
+                    // if the show is a serial
+                } else if (serialsRepo.getSerialByTitle(showTitle) != null) {
+                    Serial serial = serialsRepo.getSerialByTitle(showTitle);
+                    // if the user has started rated a season from the serial
+                    if (serial.getRatedSeasonByUsers().containsKey(user.getUsername())) {
+                        // if the rated season is the one that is being rated now
+                        if (serial.getRatedSeasonByUsers().get(user.getUsername()).contains(inputAction.getSeasonNumber())) {
+                            message = "error -> " + showTitle + " has been already rated";
+                            return message;
+                        } else {
+                            // if it is a new season, add it to the list
+                            serial.getRatedSeasonByUsers().get(user.getUsername()).add(inputAction.getSeasonNumber());
+                        }
+                    } else {
+                        ArrayList auxiliaryList = new ArrayList<>(inputAction.getSeasonNumber());
+                        serial.getRatedSeasonByUsers().put(user.getUsername(), auxiliaryList);
+                    }
+                    serialsRepo.getSerialByTitle(showTitle).addSeasonRating(inputAction.getSeasonNumber(), grade);
                     user.getRatedMovies().add(showTitle);
-                    message = "success -> " + showTitle + " was rated with " + grade + " by " + user.getUsername();
-                } else {
-                    message = "error -> " + showTitle + " has been already rated";
                 }
+                message = "success -> " + showTitle + " was rated with " + grade + " by " + user.getUsername();
             } else {
                 message = "error -> " + showTitle + " is not seen";
+                return message;
             }
         }
         return message;

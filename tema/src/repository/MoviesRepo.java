@@ -13,11 +13,11 @@ import java.rmi.MarshalledObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoviesRepo {
+public final class MoviesRepo {
     /**
      * List of movies
      */
-    private List<Movie> moviesData;
+    private final List<Movie> moviesData;
 
     public MoviesRepo(Input input) {
         moviesData = new ArrayList<>();
@@ -65,10 +65,6 @@ public class MoviesRepo {
         return moviesData;
     }
 
-    public void setMoviesData(List<Movie> moviesData) {
-        this.moviesData = moviesData;
-    }
-
     /**
      * Find the movie with a given title
      * @param movieTitle the searched title of the movie
@@ -76,7 +72,7 @@ public class MoviesRepo {
      */
     public Movie getMovieByTitle(String movieTitle) {
         for (Movie movie : moviesData) {
-            if (equals(movie.getTitle().equals(movieTitle))) {
+            if (movie.getTitle().equals(movieTitle)) {
                 return movie;
             }
         }

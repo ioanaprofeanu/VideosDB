@@ -28,6 +28,23 @@ public final class Season {
         this.ratings = new ArrayList<>();
     }
 
+    public int getCurrentSeason() {
+        return currentSeason;
+    }
+
+    public double getAverageSeasonRating() {
+        if (this.ratings.size() == 0) {
+            return 0;
+        }
+        double sumOfGrades = 0;
+        int noGrades = 0;
+        for (Double rating : this.ratings) {
+            sumOfGrades += rating;
+            noGrades++;
+        }
+        return sumOfGrades / noGrades;
+    }
+
     public int getDuration() {
         return duration;
     }

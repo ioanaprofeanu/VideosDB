@@ -12,7 +12,7 @@ public class Movie extends Show {
      */
     private final int duration;
     /**
-     * List of all ratings the movie was given
+     * Map of all ratings the movie was given
      */
     private List<Double> ratings;
 
@@ -21,6 +21,7 @@ public class Movie extends Show {
                  final int duration) {
         super(title, year, cast, genres);
         this.duration = duration;
+        this.ratings = new ArrayList<>();
     }
 
     public int getDuration() {
@@ -38,7 +39,6 @@ public class Movie extends Show {
         if (ratings == null) {
             return 0;
         }
-
         double sumOfRatings = 0;
         for (double rating : ratings) {
             sumOfRatings += rating;

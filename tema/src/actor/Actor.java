@@ -56,7 +56,7 @@ public class Actor {
         int noRatings = 0;
         for (String title : this.filmography) {
             for (Movie movie : moviesRepo.getMoviesData()) {
-                if (movie.getAverageRating() != 0) {
+                if (movie.getAverageRating() > 0) {
                     if (movie.getTitle().equals(title)) {
                         noRatings++;
                         sumOfRatings += movie.getAverageRating();
@@ -64,10 +64,10 @@ public class Actor {
                 }
             }
             for (Serial serial : serialsRepo.getSerialsData()) {
-                if (serial.getAverageRating() != 0) {
+                if (serial.getAverageRating() > 0) {
                     if (serial.getTitle().equals(title)) {
                         noRatings++;
-                        sumOfRatings++;
+                        sumOfRatings += serial.getAverageRating();;
                     }
                 }
             }

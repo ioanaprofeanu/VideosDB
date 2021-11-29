@@ -155,7 +155,7 @@ public class QueryVideo {
         // for each show from the sorted show list
         for (Show show : sortedShowList) {
             // if the input genre list is not null
-            if (genreList != null) {
+            if (genreList.get(0) != null) {
                 // for each genre in the genre list
                 for (String genre : genreList) {
                     // check if the current show contains the genre in its genre list;
@@ -165,7 +165,7 @@ public class QueryVideo {
                     }
                 }
             }
-            if (yearList != null) {
+            if (yearList.get(0) != null) {
                 for (String year : yearList) {
                     if (!Integer.toString(show.getYear()).equals(year)) {
                         filteredSortedList.remove(show);
@@ -194,7 +194,7 @@ public class QueryVideo {
 
         if (inputAction.getSortType().equals(Constants.ASC)) {
             Collections.sort(sortedShows, new SortVideoByRatingAsc());
-        } else if (inputAction.getActionType().equals(Constants.DESC)) {
+        } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(sortedShows, new SortVideoByRatingDesc());
         }
         return sortedShows;
@@ -218,7 +218,7 @@ public class QueryVideo {
 
         if (inputAction.getSortType().equals(Constants.ASC)) {
             Collections.sort(sortedShows, new SortVideoByFavoriteAsc());
-        } else if (inputAction.getActionType().equals(Constants.DESC)) {
+        } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(sortedShows, new SortVideoByFavoriteDesc());
         }
         return sortedShows;
@@ -242,7 +242,7 @@ public class QueryVideo {
 
         if (inputAction.getSortType().equals(Constants.ASC)) {
             Collections.sort(sortedShows, new SortVideoByDurationAsc());
-        } else if (inputAction.getActionType().equals(Constants.DESC)) {
+        } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(sortedShows, new SortVideoByDurationDesc());
         }
         return sortedShows;
@@ -266,7 +266,7 @@ public class QueryVideo {
 
         if (inputAction.getSortType().equals(Constants.ASC)) {
             Collections.sort(sortedShows, new SortVideoByViewsAsc());
-        } else if (inputAction.getActionType().equals(Constants.DESC)) {
+        } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(sortedShows, new SortVideoByViewsDesc());
         }
         return sortedShows;
@@ -306,6 +306,7 @@ public class QueryVideo {
             if (finalSortedShows.size() < numberListElem) {
                 numberListElem = finalSortedShows.size();
             }
+
             // print titles
             for (int i = 0; i < numberListElem; i++) {
                  message.append(finalSortedShows.get(i).getTitle());

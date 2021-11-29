@@ -12,11 +12,11 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SerialsRepo {
+public final class SerialsRepo {
     /**
      * List of serials aka tv shows
      */
-    private List<Serial> serialsData;
+    private final List<Serial> serialsData;
 
     public SerialsRepo(Input input) {
         serialsData = new ArrayList<>();
@@ -64,10 +64,6 @@ public class SerialsRepo {
         return serialsData;
     }
 
-    public void setSerialsData(List<Serial> serialsData) {
-        this.serialsData = serialsData;
-    }
-
     /**
      * Find the serial with a given title
      * @param serialTitle the searched title of the serial
@@ -75,7 +71,7 @@ public class SerialsRepo {
      */
     public Serial getSerialByTitle(String serialTitle) {
         for (Serial serial : serialsData) {
-            if (equals(serial.getTitle().equals(serialTitle))) {
+            if (serial.getTitle().equals(serialTitle)) {
                 return serial;
             }
         }

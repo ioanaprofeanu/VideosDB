@@ -1,6 +1,10 @@
 package entertainment;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Information about a tv show
@@ -14,6 +18,12 @@ public class Serial extends Show {
      * Season list
      */
     private final ArrayList<Season> seasons;
+    /**
+     * A list of lists; Each parent list contains the
+     * season number, and its content is represented by
+     * the users who rated it
+     */
+    private Map<String, ArrayList<Integer>> ratedSeasonByUsers;
 
     public Serial(final String title, final ArrayList<String> cast,
                   final ArrayList<String> genres,
@@ -22,6 +32,7 @@ public class Serial extends Show {
         super(title, year, cast, genres);
         this.numberOfSeasons = numberOfSeasons;
         this.seasons = seasons;
+        this.ratedSeasonByUsers = new HashMap<>();
     }
 
     public int getNumberOfSeasons() {
@@ -38,20 +49,12 @@ public class Serial extends Show {
      * @param grade the rating
      */
     public void addSeasonRating(int seasonNumber, double grade) {
-        this.seasons.get(seasonNumber).getRatings().add(grade);
-    }
-
-    /**
-     * Get the average rating of a season within a serial
-     * @param seasonNumber the order number of the season
-     * @return the average rating of a season
-     */
-    public double getAverageSeasonRating(int seasonNumber) {
-        double sumOfGrades = 0;
-        for (double grade : this.seasons.get(seasonNumber).getRatings()) {
-            sumOfGrades += grade;
+        for (Season season : seasons) {
+            if (seasonNumber == season.getCurrentSeason()){
+                season.getRatings().add(grade);
+                return;
+            }
         }
-        return sumOfGrades / this.seasons.get(seasonNumber).getRatings().size();
     }
 
     /**
@@ -60,8 +63,8 @@ public class Serial extends Show {
      */
     public double getAverageRating() {
         double sumOfGrades = 0;
-        for (int i = 0; i < this.seasons.size(); i++) {
-            sumOfGrades += getAverageSeasonRating(i);
+        for (Season season : seasons) {
+            sumOfGrades += season.getAverageSeasonRating();
         }
         return sumOfGrades / numberOfSeasons;
     }
@@ -76,6 +79,10 @@ public class Serial extends Show {
             sumOfDurations += season.getDuration();
         }
         return sumOfDurations;
+    }
+
+    public Map<String, ArrayList<Integer>> getRatedSeasonByUsers() {
+        return ratedSeasonByUsers;
     }
 
     @Override

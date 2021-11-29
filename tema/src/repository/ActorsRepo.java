@@ -5,14 +5,13 @@ import entertainment.Show;
 import fileio.ActorInputData;
 import fileio.Input;
 
-import javax.swing.plaf.synth.SynthRadioButtonMenuItemUI;
 import java.util.ArrayList;
 
-public class ActorsRepo {
+public final class ActorsRepo {
     /**
      * List of actors
      */
-    private ArrayList<Actor> actorsData;
+    private final ArrayList<Actor> actorsData;
 
     public ActorsRepo(Input input) {
         actorsData = new ArrayList<>();
@@ -50,9 +49,5 @@ public class ActorsRepo {
 
     public ArrayList<Actor> getActorsData() {
         return actorsData;
-    }
-
-    public void setActorsData(ArrayList<Actor> actorsData) {
-        this.actorsData = actorsData;
     }
 }

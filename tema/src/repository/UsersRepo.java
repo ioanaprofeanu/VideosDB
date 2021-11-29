@@ -9,11 +9,11 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersRepo {
+public final class UsersRepo {
     /**
      * List of users
      */
-    private ArrayList<User> usersData;
+    private final ArrayList<User> usersData;
 
     public UsersRepo(Input input) {
         usersData = new ArrayList<>();
@@ -27,10 +27,6 @@ public class UsersRepo {
 
     public ArrayList<User> getUsersData() {
         return usersData;
-    }
-
-    public void setUsersData(ArrayList<User> usersData) {
-        this.usersData = usersData;
     }
 
     /**
@@ -54,7 +50,7 @@ public class UsersRepo {
     public ArrayList<User> getReviewersUsers () {
         ArrayList<User> reviewersList = new ArrayList<User>();
         for (User user : usersData) {
-            if (user.getRatedMovies().size() != 0) {
+            if (user.getRatedMovies().size() > 0) {
                 reviewersList.add(user);
             }
         }

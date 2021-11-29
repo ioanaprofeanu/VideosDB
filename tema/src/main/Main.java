@@ -82,10 +82,10 @@ public final class Main {
         JSONArray arrayResult = new JSONArray();
 
         //TODO add here the entry point to your implementation
-        ActorsRepo actorsRepo = new ActorsRepo(input);
         MoviesRepo moviesRepo = new MoviesRepo(input);
         SerialsRepo serialsRepo = new SerialsRepo(input);
         UsersRepo usersRepo = new UsersRepo(input);
+        ActorsRepo actorsRepo = new ActorsRepo(input);
 
         // initialise the view and favorite count of all serials and movies
         moviesRepo.initialiseViewNumber(usersRepo);
