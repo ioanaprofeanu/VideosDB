@@ -32,10 +32,6 @@ public class Serial extends Show {
         this.ratedSeasonByUsers = new HashMap<>();
     }
 
-    public int getNumberOfSeasons() {
-        return numberOfSeasons;
-    }
-
     public ArrayList<Season> getSeasons() {
         return seasons;
     }

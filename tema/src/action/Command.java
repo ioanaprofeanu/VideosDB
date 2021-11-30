@@ -10,9 +10,9 @@ import user.User;
 import java.util.ArrayList;
 
 public class Command {
-    public String addFavorite(ActionInputData inputAction,
-                            UsersRepo usersRepo, MoviesRepo moviesRepo,
-                            SerialsRepo serialsRepo) {
+    public String addFavorite(final ActionInputData inputAction,
+                            final UsersRepo usersRepo, final MoviesRepo moviesRepo,
+                            final SerialsRepo serialsRepo) {
         String message = null;
         String showTitle = inputAction.getTitle();
         User user = usersRepo.getUserByUsername(inputAction.getUsername());
@@ -38,9 +38,9 @@ public class Command {
         return message;
     }
 
-    public String addView(ActionInputData inputAction,
-                          UsersRepo usersRepo, MoviesRepo moviesRepo,
-                          SerialsRepo serialsRepo) {
+    public String addView(final ActionInputData inputAction,
+                          final UsersRepo usersRepo, final MoviesRepo moviesRepo,
+                          final SerialsRepo serialsRepo) {
         String message = null;
         String showTitle = inputAction.getTitle();
         User user = usersRepo.getUserByUsername(inputAction.getUsername());
@@ -53,17 +53,17 @@ public class Command {
             } else if (serialsRepo.getSerialByTitle(showTitle) != null) {
                 serialsRepo.getSerialByTitle(showTitle).increaseViewNumber();
             }
-            message =  "success -> " +
-                    showTitle +
-                    " was viewed with total views of " +
-                    user.numberOfHistoryViews(showTitle);
+            message =  "success -> "
+                    + showTitle
+                    + " was viewed with total views of "
+                    + user.numberOfHistoryViews(showTitle);
         }
         return message;
     }
 
-    public String addRating(ActionInputData inputAction,
-                            UsersRepo usersRepo, MoviesRepo moviesRepo,
-                            SerialsRepo serialsRepo) {
+    public String addRating(final ActionInputData inputAction,
+                            final UsersRepo usersRepo, final MoviesRepo moviesRepo,
+                            final SerialsRepo serialsRepo) {
         String message = null;
         String showTitle = inputAction.getTitle();
         double grade = inputAction.getGrade();

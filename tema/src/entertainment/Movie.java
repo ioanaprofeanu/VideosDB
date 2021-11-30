@@ -14,7 +14,7 @@ public class Movie extends Show {
     /**
      * Map of all ratings the movie was given
      */
-    private List<Double> ratings;
+    private final List<Double> ratings;
 
     public Movie(final String title, final ArrayList<String> cast,
                  final ArrayList<String> genres, final int year,

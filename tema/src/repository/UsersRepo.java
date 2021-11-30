@@ -4,10 +4,7 @@ import fileio.Input;
 import fileio.UserInputData;
 import user.User;
 
-import java.sql.Array;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.List;
 
 public final class UsersRepo {
     /**
@@ -48,7 +45,7 @@ public final class UsersRepo {
      * @return list of all reviewers
      */
     public ArrayList<User> getReviewersUsers () {
-        ArrayList<User> reviewersList = new ArrayList<User>();
+        ArrayList<User> reviewersList = new ArrayList<>();
         for (User user : usersData) {
             if (user.getRatedMovies().size() > 0) {
                 reviewersList.add(user);

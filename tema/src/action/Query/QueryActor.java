@@ -113,8 +113,7 @@ public class QueryActor {
         return sortedActorsList;
     }
 
-    public ArrayList<Actor> getAwardsActorList(ActionInputData inputAction, ActorsRepo actorsRepo,
-                                                MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
+    public ArrayList<Actor> getAwardsActorList(ActionInputData inputAction, ActorsRepo actorsRepo) {
         ArrayList<Actor> sortedActorsList = actorsRepo.getActorsData();
 
         ArrayList<Actor> filteredSortedList = new ArrayList<>(sortedActorsList);
@@ -142,8 +141,7 @@ public class QueryActor {
         return filteredSortedList;
     }
 
-    public ArrayList<Actor> getDescriptionActorList(ActionInputData inputAction, ActorsRepo actorsRepo,
-                                               MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
+    public ArrayList<Actor> getDescriptionActorList(ActionInputData inputAction, ActorsRepo actorsRepo) {
         ArrayList<Actor> sortedActorsList = actorsRepo.getActorsData();
 
         ArrayList<Actor> filteredSortedList = new ArrayList<>(sortedActorsList);
@@ -182,17 +180,14 @@ public class QueryActor {
         message.append("Query result: [");
         // build an arraylist containing the shows sorted by query type,
         // which have the wanted genre & year
-        ArrayList<Actor> finalSortedActors = new ArrayList<Actor>();
+        ArrayList<Actor> finalSortedActors = new ArrayList<>();
         switch (queryType) {
-            case Constants.AVERAGE -> {
-                finalSortedActors = getAverageActorList(inputAction, actorsRepo, moviesRepo, serialsRepo);
-            }
-            case Constants.AWARDS -> {
-                finalSortedActors = getAwardsActorList(inputAction, actorsRepo, moviesRepo, serialsRepo);
-            }
-            case Constants.FILTER_DESCRIPTIONS  -> {
-                finalSortedActors = getDescriptionActorList(inputAction, actorsRepo, moviesRepo, serialsRepo);
-            }
+            case Constants.AVERAGE -> finalSortedActors = getAverageActorList(inputAction,
+                    actorsRepo, moviesRepo, serialsRepo);
+            case Constants.AWARDS -> finalSortedActors = getAwardsActorList(inputAction,
+                    actorsRepo);
+            case Constants.FILTER_DESCRIPTIONS  -> finalSortedActors = getDescriptionActorList(inputAction,
+                    actorsRepo);
         }
 
         int numberListElem = inputAction.getNumber();

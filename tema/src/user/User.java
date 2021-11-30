@@ -18,15 +18,15 @@ public class User {
     /**
      * The history of the movies seen
      */
-    private Map<String, Integer> history;
+    private final Map<String, Integer> history;
     /**
      * Movies added to favorites
      */
-    private ArrayList<String> favoriteMovies;
+    private final ArrayList<String> favoriteMovies;
     /**
      * Rated movies
      */
-    private ArrayList<String> ratedMovies;
+    private final ArrayList<String> ratedMovies;
 
     public User(final String username, final String subscriptionType,
                 final Map<String, Integer> history,
@@ -83,6 +83,7 @@ public class User {
     public int numberOfRatedShows(){
         return ratedMovies.size();
     }
+
     public String getUsername() {
         return username;
     }

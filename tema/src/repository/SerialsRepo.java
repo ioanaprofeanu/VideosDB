@@ -110,8 +110,7 @@ public final class SerialsRepo {
      * @return the show objects
      */
     public ArrayList<Show> getSerialShowData() {
-        ArrayList<Show> showData = new ArrayList<>(serialsData);
-        return showData;
+        return new ArrayList<>(serialsData);
     }
 
     /**

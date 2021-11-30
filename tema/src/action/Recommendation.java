@@ -52,7 +52,7 @@ public class Recommendation {
         @Override
         public int compare(Show o1, Show o2) {
             if (o1.getFavoriteNumber() == o2.getFavoriteNumber()) {
-                return o2.getTitle().compareTo(o1.getTitle());
+                return 0;
             }
             if (o1.getFavoriteNumber() < o2.getFavoriteNumber()) {
                 return 1;
@@ -198,22 +198,14 @@ public class Recommendation {
     public String FavoriteRecommendation(ActionInputData inputAction,
                                            User user, MoviesRepo moviesRepo,
                                            SerialsRepo serialsRepo) {
-        ArrayList<Show> sortedMoviesShows = new ArrayList<Show>();
-        ArrayList<Show> sortedSerialsShows = new ArrayList<Show>();
+        ArrayList<Show> sortedShows = new ArrayList<Show>();
 
-        sortedMoviesShows.addAll(moviesRepo.getFavoriteMovies());
-        sortedSerialsShows.addAll(serialsRepo.getFavoriteSerials());
+        sortedShows.addAll(moviesRepo.getFavoriteMovies());
+        sortedShows.addAll(serialsRepo.getFavoriteSerials());
 
-        Collections.sort(sortedMoviesShows, new Recommendation.SortVideoByFavoriteDesc());
-        Collections.sort(sortedSerialsShows, new Recommendation.SortVideoByFavoriteDesc());
+        Collections.sort(sortedShows, new Recommendation.SortVideoByFavoriteDesc());
 
-        for (Show show : sortedMoviesShows) {
-            if (!user.viewedShow(show.getTitle())) {
-                return show.getTitle();
-            }
-        }
-
-        for (Show show : sortedSerialsShows) {
+        for (Show show : sortedShows) {
             if (!user.viewedShow(show.getTitle())) {
                 return show.getTitle();
             }

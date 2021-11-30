@@ -208,7 +208,7 @@ public class QueryVideo {
      */
     public ArrayList<Show> getFavoriteShowList(ActionInputData inputAction,
                                               MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
-        ArrayList<Show> sortedShows = new ArrayList<Show>();
+        ArrayList<Show> sortedShows = new ArrayList<>();
         if (inputAction.getObjectType().equals(Constants.MOVIES)) {
             sortedShows.addAll(filteredSortedShows(inputAction, moviesRepo.getFavoriteMovies()));
         } else if (inputAction.getObjectType().equals(Constants.SHOWS)) {
@@ -256,7 +256,7 @@ public class QueryVideo {
      */
     public ArrayList<Show> getMostViewedShowList(ActionInputData inputAction,
                                                MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
-        ArrayList<Show> sortedShows = new ArrayList<Show>();
+        ArrayList<Show> sortedShows = new ArrayList<>();
         if (inputAction.getObjectType().equals(Constants.MOVIES)) {
             sortedShows.addAll(filteredSortedShows(inputAction, moviesRepo.getViewedMovies()));
         } else if (inputAction.getObjectType().equals(Constants.SHOWS)) {
@@ -284,20 +284,16 @@ public class QueryVideo {
             message.append("Query result: [");
             // build an arraylist containing the shows sorted by query type,
             // which have the wanted genre & year
-            ArrayList<Show> finalSortedShows = new ArrayList<Show>();
+            ArrayList<Show> finalSortedShows = new ArrayList<>();
             switch (queryType) {
-                case Constants.RATINGS -> {
-                    finalSortedShows = getRatingsShowList(inputAction, moviesRepo, serialsRepo);
-                }
-                case Constants.FAVORITE -> {
-                    finalSortedShows = getFavoriteShowList(inputAction, moviesRepo, serialsRepo);
-                }
-                case Constants.LONGEST  -> {
-                    finalSortedShows = getLongestShowList(inputAction, moviesRepo, serialsRepo);
-                }
-                case Constants.MOST_VIEWED -> {
-                    finalSortedShows = getMostViewedShowList(inputAction, moviesRepo, serialsRepo);
-                }
+                case Constants.RATINGS -> finalSortedShows = getRatingsShowList(inputAction,
+                        moviesRepo, serialsRepo);
+                case Constants.FAVORITE -> finalSortedShows = getFavoriteShowList(inputAction,
+                        moviesRepo, serialsRepo);
+                case Constants.LONGEST  -> finalSortedShows = getLongestShowList(inputAction,
+                        moviesRepo, serialsRepo);
+                case Constants.MOST_VIEWED -> finalSortedShows = getMostViewedShowList(inputAction,
+                        moviesRepo, serialsRepo);
             }
 
             int numberListElem = inputAction.getNumber();

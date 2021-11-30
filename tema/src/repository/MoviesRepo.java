@@ -110,8 +110,7 @@ public final class MoviesRepo {
      * @return the show objects
      */
     public ArrayList<Show> getMoviesShowData() {
-        ArrayList<Show> showData = new ArrayList<>(moviesData);
-        return showData;
+        return new ArrayList<>(moviesData);
     }
 
     /**

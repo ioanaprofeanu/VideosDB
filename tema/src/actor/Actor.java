@@ -19,7 +19,7 @@ public class Actor {
     /**
      * description of the actor's career
      */
-    private String careerDescription;
+    private final String careerDescription;
     /**
      * videos starring actor
      */
@@ -48,7 +48,6 @@ public class Actor {
      * an actor plays in
      * @param moviesRepo the movies database
      * @param serialsRepo the serials database
-     * @return the average
      */
     public void setAverageActorRating(MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
         double sumOfRatings = 0;
@@ -66,7 +65,7 @@ public class Actor {
                 if (serial.getAverageRating() > 0) {
                     if (serial.getTitle().equals(title)) {
                         noRatings++;
-                        sumOfRatings += serial.getAverageRating();;
+                        sumOfRatings += serial.getAverageRating();
                     }
                 }
             }
@@ -112,10 +111,6 @@ public class Actor {
 
     public String getCareerDescription() {
         return careerDescription;
-    }
-
-    public void setCareerDescription(final String careerDescription) {
-        this.careerDescription = careerDescription;
     }
 
     public double getRating() {
