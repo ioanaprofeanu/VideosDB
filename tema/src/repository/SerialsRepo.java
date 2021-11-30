@@ -1,14 +1,11 @@
 package repository;
 
-import common.Constants;
-import entertainment.Movie;
 import entertainment.Serial;
 import entertainment.Show;
 import fileio.Input;
 import fileio.SerialInputData;
 import user.User;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +81,7 @@ public final class SerialsRepo {
      * @return a show list of rated serials
      */
     public ArrayList<Show> getRatedSerials() {
-        ArrayList<Show> ratedSerialList = new ArrayList<Show>();
+        ArrayList<Show> ratedSerialList = new ArrayList<>();
         for (Serial serial : serialsData) {
             if (serial.getAverageRating() > 0) {
                 ratedSerialList.add(serial);
@@ -99,7 +96,7 @@ public final class SerialsRepo {
      * @return the favorite list of shows
      */
     public ArrayList<Show> getFavoriteSerials() {
-        ArrayList<Show> favoriteSerialList = new ArrayList<Show>();
+        ArrayList<Show> favoriteSerialList = new ArrayList<>();
         for (Serial serial : serialsData) {
             if (serial.getFavoriteNumber() != 0) {
                 favoriteSerialList.add(serial);
@@ -113,10 +110,7 @@ public final class SerialsRepo {
      * @return the show objects
      */
     public ArrayList<Show> getSerialShowData() {
-        ArrayList<Show> showData = new ArrayList<Show>();
-        for (Serial serial : serialsData) {
-            showData.add(serial);
-        }
+        ArrayList<Show> showData = new ArrayList<>(serialsData);
         return showData;
     }
 
@@ -125,7 +119,7 @@ public final class SerialsRepo {
      * @return the viewed list of shows
      */
     public ArrayList<Show> getViewedSerials() {
-        ArrayList<Show> viewedSerialList = new ArrayList<Show>();
+        ArrayList<Show> viewedSerialList = new ArrayList<>();
         for (Serial serial : serialsData) {
             if (serial.getViewNumber() != 0) {
                 viewedSerialList.add(serial);

@@ -1,17 +1,13 @@
 package action;
 
-import actor.Actor;
-import entertainment.Movie;
 import entertainment.Serial;
 import fileio.ActionInputData;
-import repository.ActorsRepo;
 import repository.MoviesRepo;
 import repository.SerialsRepo;
 import repository.UsersRepo;
 import user.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Command {
     public String addFavorite(ActionInputData inputAction,
@@ -101,7 +97,8 @@ public class Command {
                             serial.getRatedSeasonByUsers().get(user.getUsername()).add(inputAction.getSeasonNumber());
                         }
                     } else {
-                        ArrayList auxiliaryList = new ArrayList<>(inputAction.getSeasonNumber());
+                        ArrayList<Integer> auxiliaryList = new ArrayList<>();
+                        auxiliaryList.add(inputAction.getSeasonNumber());
                         serial.getRatedSeasonByUsers().put(user.getUsername(), auxiliaryList);
                     }
                     serialsRepo.getSerialByTitle(showTitle).addSeasonRating(inputAction.getSeasonNumber(), grade);

@@ -2,7 +2,6 @@ package actor;
 
 import entertainment.Movie;
 import entertainment.Serial;
-import fileio.ActorInputData;
 import repository.MoviesRepo;
 import repository.SerialsRepo;
 

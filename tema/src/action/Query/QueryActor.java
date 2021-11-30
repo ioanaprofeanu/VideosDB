@@ -1,19 +1,19 @@
 package action.Query;
 
 import actor.Actor;
+import actor.ActorsAwards;
 import common.Constants;
-import entertainment.Show;
 import fileio.ActionInputData;
 import repository.ActorsRepo;
 import repository.MoviesRepo;
 import repository.SerialsRepo;
 
-import javax.sound.midi.Soundbank;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class QueryActor {
     /**
@@ -123,12 +123,11 @@ public class QueryActor {
         // for each actor from the sorted actors list
         for (Actor actor : sortedActorsList) {
             // if the input words list is not null
-            // if the input words list is not null
-            if (awardsList != null) {
+            if (awardsList.get(0) != null) {
                 for (String award : awardsList) {
                     // check if the current actors has received the given award;
                     // otherwise, remove it from the filtered and sorted list
-                    if (!actor.getAwards().containsKey(award)) {
+                    if (!actor.getAwards().containsKey(ActorsAwards.valueOf(award))) {
                         filteredSortedList.remove(actor);
                     }
                 }
@@ -153,12 +152,15 @@ public class QueryActor {
         // for each actor from the sorted actors list
         for (Actor actor : sortedActorsList) {
             // if the input words list is not null
-            if (wordsList != null) {
+            if (wordsList.get(0) != null) {
                 // for each word in the list
                 for (String word : wordsList) {
                     // check if the current actor's description contains the given word;
                     // otherwise, remove it from the filtered and sorted list
-                    if (!actor.getCareerDescription().toLowerCase().contains(word.toLowerCase())) {
+                    String regex = "[ !?.,':;-]" + word + "[ !?.,':;-]";
+                    Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+                    Matcher matcher = pattern.matcher(actor.getCareerDescription());
+                    if (!matcher.find()) {
                         filteredSortedList.remove(actor);
                     }
                 }
@@ -166,9 +168,9 @@ public class QueryActor {
         }
 
         if (inputAction.getSortType().equals(Constants.ASC)) {
-            Collections.sort(filteredSortedList, new QueryActor.SortActorByAwardAsc());
+            Collections.sort(filteredSortedList, new QueryActor.SortActorByNameAsc());
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
-            Collections.sort(filteredSortedList, new QueryActor.SortActorByAwardDesc());
+            Collections.sort(filteredSortedList, new QueryActor.SortActorByNameDesc());
         }
         return filteredSortedList;
     }

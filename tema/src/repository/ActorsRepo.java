@@ -1,7 +1,6 @@
 package repository;
 
 import actor.Actor;
-import entertainment.Show;
 import fileio.ActorInputData;
 import fileio.Input;
 
@@ -38,7 +37,7 @@ public final class ActorsRepo {
      * @return
      */
     public ArrayList<Actor> getRatedActors() {
-        ArrayList<Actor> ratedActorsList = new ArrayList<Actor>();
+        ArrayList<Actor> ratedActorsList = new ArrayList<>();
         for (Actor actor : actorsData) {
             if (actor.getRating() > 0) {
                 ratedActorsList.add(actor);

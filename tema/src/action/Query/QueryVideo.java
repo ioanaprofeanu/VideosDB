@@ -6,7 +6,6 @@ import fileio.ActionInputData;
 import repository.MoviesRepo;
 import repository.SerialsRepo;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -144,7 +143,7 @@ public class QueryVideo {
     /**
      * Filter a show list by genre and year
      * @param inputAction
-     * @param sortedShowList a sorted input show list
+     * @param showList a sorted input show list
      * @return the list filtered by genre and year
      */
     public ArrayList<Show> filteredSortedShows(ActionInputData inputAction, ArrayList<Show> showList) {
@@ -185,7 +184,7 @@ public class QueryVideo {
      */
     public ArrayList<Show> getRatingsShowList(ActionInputData inputAction,
                                               MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
-        ArrayList<Show> sortedShows = new ArrayList<Show>();
+        ArrayList<Show> sortedShows = new ArrayList<>();
         if (inputAction.getObjectType().equals(Constants.MOVIES)) {
             sortedShows.addAll(filteredSortedShows(inputAction, moviesRepo.getRatedMovies()));
         } else if (inputAction.getObjectType().equals(Constants.SHOWS)) {
@@ -233,7 +232,7 @@ public class QueryVideo {
      */
     public ArrayList<Show> getLongestShowList(ActionInputData inputAction,
                                                MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
-        ArrayList<Show> sortedShows = new ArrayList<Show>();
+        ArrayList<Show> sortedShows = new ArrayList<>();
         if (inputAction.getObjectType().equals(Constants.MOVIES)) {
             sortedShows.addAll(filteredSortedShows(inputAction, moviesRepo.getMoviesShowData()));
         } else if (inputAction.getObjectType().equals(Constants.SHOWS)) {
@@ -309,7 +308,7 @@ public class QueryVideo {
 
             // print titles
             for (int i = 0; i < numberListElem; i++) {
-                 message.append(finalSortedShows.get(i).getTitle());
+                message.append(finalSortedShows.get(i).getTitle());
                 if (i < numberListElem - 1) {
                     message.append(", ");
                 }

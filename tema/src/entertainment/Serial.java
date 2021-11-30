@@ -1,9 +1,7 @@
 package entertainment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,11 +17,10 @@ public class Serial extends Show {
      */
     private final ArrayList<Season> seasons;
     /**
-     * A list of lists; Each parent list contains the
-     * season number, and its content is represented by
-     * the users who rated it
+     * A list of lists; the key represents the username of a user
+     * and the value is a list of seasons the user rated
      */
-    private Map<String, ArrayList<Integer>> ratedSeasonByUsers;
+    private final Map<String, ArrayList<Integer>> ratedSeasonByUsers;
 
     public Serial(final String title, final ArrayList<String> cast,
                   final ArrayList<String> genres,

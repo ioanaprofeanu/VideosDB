@@ -1,15 +1,11 @@
 package repository;
 
-import common.Constants;
 import entertainment.Movie;
-import entertainment.Serial;
 import entertainment.Show;
 import fileio.Input;
 import fileio.MovieInputData;
 import user.User;
 
-import java.lang.reflect.Array;
-import java.rmi.MarshalledObject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +81,7 @@ public final class MoviesRepo {
      * @return a show list of rated movies
      */
     public ArrayList<Show> getRatedMovies() {
-        ArrayList<Show> ratedMoviesList = new ArrayList<Show>();
+        ArrayList<Show> ratedMoviesList = new ArrayList<>();
         for (Movie movie : moviesData) {
             if (movie.getAverageRating() > 0) {
                 ratedMoviesList.add(movie);
@@ -100,7 +96,7 @@ public final class MoviesRepo {
      * @return the favorite list of shows
      */
     public ArrayList<Show> getFavoriteMovies() {
-        ArrayList<Show> favoriteMoviesList = new ArrayList<Show>();
+        ArrayList<Show> favoriteMoviesList = new ArrayList<>();
         for (Movie movie : moviesData) {
             if (movie.getFavoriteNumber() != 0) {
                 favoriteMoviesList.add(movie);
@@ -114,10 +110,7 @@ public final class MoviesRepo {
      * @return the show objects
      */
     public ArrayList<Show> getMoviesShowData() {
-        ArrayList<Show> showData = new ArrayList<Show>();
-        for (Movie movie : moviesData) {
-            showData.add(movie);
-        }
+        ArrayList<Show> showData = new ArrayList<>(moviesData);
         return showData;
     }
 
@@ -127,7 +120,7 @@ public final class MoviesRepo {
      * @return the viewed list of shows
      */
     public ArrayList<Show> getViewedMovies() {
-        ArrayList<Show> viewedMoviesList = new ArrayList<Show>();
+        ArrayList<Show> viewedMoviesList = new ArrayList<>();
         for (Movie movie : moviesData) {
             if (movie.getViewNumber() != 0) {
                 viewedMoviesList.add(movie);
