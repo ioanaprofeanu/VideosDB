@@ -15,7 +15,7 @@ public final class SerialsRepo {
      */
     private final List<Serial> serialsData;
 
-    public SerialsRepo(Input input) {
+    public SerialsRepo(final Input input) {
         serialsData = new ArrayList<>();
         for (SerialInputData inputSerial : input.getSerials()) {
             Serial newSerial = new Serial(inputSerial.getTitle(), inputSerial.getCast(),
@@ -30,7 +30,7 @@ public final class SerialsRepo {
      * to each user's view count
      * @param usersRepo
      */
-    public void initialiseViewNumber(UsersRepo usersRepo) {
+    public void initialiseViewNumber(final UsersRepo usersRepo) {
         for (Serial serial : serialsData) {
             for (User user : usersRepo.getUsersData()) {
                 if (user.getHistory().containsKey(serial.getTitle())) {
@@ -47,7 +47,7 @@ public final class SerialsRepo {
      * to each user's view count
      * @param usersRepo
      */
-    public void initialiseFavoriteNumber(UsersRepo usersRepo) {
+    public void initialiseFavoriteNumber(final UsersRepo usersRepo) {
         for (Serial serial : serialsData) {
             for (User user : usersRepo.getUsersData()) {
                 if (user.getFavoriteMovies().contains(serial.getTitle())) {
@@ -66,7 +66,7 @@ public final class SerialsRepo {
      * @param serialTitle the searched title of the serial
      * @return the found serial
      */
-    public Serial getSerialByTitle(String serialTitle) {
+    public Serial getSerialByTitle(final String serialTitle) {
         for (Serial serial : serialsData) {
             if (serial.getTitle().equals(serialTitle)) {
                 return serial;

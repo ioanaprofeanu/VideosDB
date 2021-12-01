@@ -63,7 +63,8 @@ public class Serial extends Show {
     }
 
     /**
-     * Get the duration of a serial
+     * Get the total duration of a serial by
+     * calculating the sum of the seasons' durations
      * @return the total duration of a serial
      */
     public int getDuration() {

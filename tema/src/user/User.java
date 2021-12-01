@@ -44,7 +44,7 @@ public class User {
      * @return ture if the show has already been viewed,
      * false otherwise
      */
-    public boolean viewedShow(String title) {
+    public boolean viewedShow(final String title) {
         for (Map.Entry<String, Integer> entry : history.entrySet()) {
             if (entry.getKey().equals(title)) {
                 if (entry.getValue() > 0) {
@@ -60,7 +60,7 @@ public class User {
      * if the show doesn't exist, add entry
      * @param title the title of the show
      */
-    public void addHistoryViews(String title) {
+    public void addHistoryViews(final String title) {
         if (this.history.containsKey(title)) {
             this.history.put(title, this.history.get(title) + 1);
             return;
@@ -73,14 +73,14 @@ public class User {
      * @return the number of times a show was
      * viewed by the user
      */
-    public int numberOfHistoryViews(String title) {
+    public int numberOfHistoryViews(final String title) {
         return this.history.get(title);
     }
 
     /**
      * @return the number of shows rated my a user
      */
-    public int numberOfRatedShows(){
+    public int numberOfRatedShows() {
         return ratedMovies.size();
     }
 

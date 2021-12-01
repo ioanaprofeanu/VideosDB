@@ -7,154 +7,109 @@ import fileio.ActionInputData;
 import repository.ActorsRepo;
 import repository.MoviesRepo;
 import repository.SerialsRepo;
+import utils.Comparators;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class QueryActor {
     /**
-     * Sort actors list by average rating in ascending order
+     * Create the list of actors sorted by their average rating
+     * @param inputAction the data of the action
+     * @param actorsRepo the actors database
+     * @param moviesRepo the movies database
+     * @param serialsRepo the serials database
+     * @return the sorted by rating actors list
      */
-    static class SortActorByAverageAsc implements Comparator<Actor> {
-        @Override
-        public int compare(Actor o1, Actor o2) {
-            if (o2.getRating() == o1.getRating()) {
-                return o1.getName().compareTo(o2.getName());
-            }
-            if (o2.getRating() < o1.getRating()) {
-                return 1;
-            }
-            return -1;
-        }
-    }
-
-    /**
-     * Sort actors list by average rating in descending order
-     */
-    static class SortActorByAverageDesc implements Comparator<Actor> {
-        @Override
-        public int compare(Actor o1, Actor o2) {
-            if (o1.getRating() == o2.getRating()) {
-                return o2.getName().compareTo(o1.getName());
-            }
-            if (o1.getRating() < o2.getRating()) {
-                return 1;
-            }
-            return -1;
-        }
-    }
-
-    /**
-     * Sort actors list by the number of awards in ascending order
-     */
-    static class SortActorByAwardAsc implements Comparator<Actor> {
-        @Override
-        public int compare(Actor o1, Actor o2) {
-            if (o2.getNumberOfAwards() == o1.getNumberOfAwards()) {
-                return o1.getName().compareTo(o2.getName());
-            }
-            if (o2.getNumberOfAwards() < o1.getNumberOfAwards()) {
-                return 1;
-            }
-            return -1;
-        }
-    }
-
-    /**
-     * Sort actors list by the number of awards in descending order
-     */
-    static class SortActorByAwardDesc implements Comparator<Actor> {
-        @Override
-        public int compare(Actor o1, Actor o2) {
-            if (o1.getNumberOfAwards() == o2.getNumberOfAwards()) {
-                return o2.getName().compareTo(o1.getName());
-            }
-            if (o1.getNumberOfAwards() < o2.getNumberOfAwards()) {
-                return 1;
-            }
-            return -1;
-        }
-    }
-
-    /**
-     * Sort actors list by name in ascending order
-     */
-    static class SortActorByNameAsc implements Comparator<Actor> {
-        @Override
-        public int compare(Actor o1, Actor o2) {
-            return o1.getName().compareTo(o2.getName());
-        }
-    }
-
-    /**
-     * Sort actors list by name in descending order
-     */
-    static class SortActorByNameDesc implements Comparator<Actor> {
-        @Override
-        public int compare(Actor o1, Actor o2) {
-            return o2.getName().compareTo(o1.getName());
-        }
-    }
-
-    public ArrayList<Actor> getAverageActorList(ActionInputData inputAction, ActorsRepo actorsRepo,
-                                               MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
+    public ArrayList<Actor> getAverageActorList(final ActionInputData inputAction,
+                                                final ActorsRepo actorsRepo,
+                                                final MoviesRepo moviesRepo,
+                                                final SerialsRepo serialsRepo) {
+        // set the average ratings of all actors
         actorsRepo.setActorsRating(moviesRepo, serialsRepo);
+        // initialise the sorted list with the list of rated actors
         ArrayList<Actor> sortedActorsList = actorsRepo.getRatedActors();
 
+        // sort in ascending or descending order by rating and by name
         if (inputAction.getSortType().equals(Constants.ASC)) {
-            Collections.sort(sortedActorsList, new QueryActor.SortActorByAverageAsc());
+            Collections.sort(sortedActorsList, new Comparators.SortActorByAverageAsc());
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
-            Collections.sort(sortedActorsList, new QueryActor.SortActorByAverageDesc());
+            Collections.sort(sortedActorsList, new Comparators.SortActorByAverageDesc());
         }
+
         return sortedActorsList;
     }
 
-    public ArrayList<Actor> getAwardsActorList(ActionInputData inputAction, ActorsRepo actorsRepo) {
-        ArrayList<Actor> sortedActorsList = actorsRepo.getActorsData();
+    /**
+     * Create the list of actors sorted by the won awards
+     * @param inputAction the data of the action
+     * @param actorsRepo the actors database
+     * @return the sorted by awards actors list
+     */
+    public ArrayList<Actor> getAwardsActorList(final ActionInputData inputAction,
+                                               final ActorsRepo actorsRepo) {
+        // copy the list of actors from the database
+        ArrayList<Actor> actorsList = actorsRepo.getActorsData();
+        // initialise the filtered and sorted actors list as a copy
+        // of the list with all actors
+        ArrayList<Actor> filterSortedList = new ArrayList<>(actorsList);
+        // get the filters awards list
+        List<String> awardsList = inputAction.getFilters().
+                get(Constants.AWARDS_FIELD_FILTERS);
 
-        ArrayList<Actor> filteredSortedList = new ArrayList<>(sortedActorsList);
-        List<String> awardsList = inputAction.getFilters().get(Constants.AWARDS_FIELD_FILTERS);
-
-        // for each actor from the sorted actors list
-        for (Actor actor : sortedActorsList) {
-            // if the input words list is not null
+        // for each actor from the actors list
+        for (Actor actor : actorsList) {
+            // if the input awards list is not null
             if (awardsList.get(0) != null) {
                 for (String award : awardsList) {
-                    // check if the current actors has received the given award;
-                    // otherwise, remove it from the filtered and sorted list
+                    // check if the current actors has received the
+                    // given award; otherwise, remove it from the filtered
+                    // and sorted list
                     if (!actor.getAwards().containsKey(ActorsAwards.valueOf(award))) {
-                        filteredSortedList.remove(actor);
+                        filterSortedList.remove(actor);
                     }
                 }
             }
         }
 
+        // sort in ascending or descending order by awards and by name
         if (inputAction.getSortType().equals(Constants.ASC)) {
-            Collections.sort(filteredSortedList, new QueryActor.SortActorByAwardAsc());
+            Collections.sort(filterSortedList, new Comparators.SortActorByAwardAsc());
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
-            Collections.sort(filteredSortedList, new QueryActor.SortActorByAwardDesc());
+            Collections.sort(filterSortedList, new Comparators.SortActorByAwardDesc());
         }
-        return filteredSortedList;
+        return filterSortedList;
     }
 
-    public ArrayList<Actor> getDescriptionActorList(ActionInputData inputAction, ActorsRepo actorsRepo) {
-        ArrayList<Actor> sortedActorsList = actorsRepo.getActorsData();
-
-        ArrayList<Actor> filteredSortedList = new ArrayList<>(sortedActorsList);
-        List<String> wordsList = inputAction.getFilters().get(Constants.WORDS_FIELD_FILTERS);
+    /**
+     * Create the list of actors sorted by description and by name
+     * @param inputAction the data of the action
+     * @param actorsRepo the actors database
+     * @return the sorted by description actors list
+     */
+    public ArrayList<Actor> getDescriptionActorList(final ActionInputData inputAction,
+                                                    final ActorsRepo actorsRepo) {
+        // copy the list of actors from the database
+        ArrayList<Actor> actorsList = actorsRepo.getActorsData();
+        // initialise the filtered and sorted actors list as a copy
+        // of the list with all actors
+        ArrayList<Actor> filteredSortedList = new ArrayList<>(actorsList);
+        // get the filters words list
+        List<String> wordsList = inputAction.getFilters().
+                get(Constants.WORDS_FIELD_FILTERS);
 
         // for each actor from the sorted actors list
-        for (Actor actor : sortedActorsList) {
+        for (Actor actor : actorsList) {
             // if the input words list is not null
             if (wordsList.get(0) != null) {
                 // for each word in the list
                 for (String word : wordsList) {
-                    // check if the current actor's description contains the given word;
-                    // otherwise, remove it from the filtered and sorted list
+                    // check if the current actor's description
+                    // contains the given word; otherwise,
+                    // remove it from the filtered and sorted list
                     String regex = "[ !?.,':;-]" + word + "[ !?.,':;-]";
                     Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
                     Matcher matcher = pattern.matcher(actor.getCareerDescription());
@@ -165,30 +120,49 @@ public class QueryActor {
             }
         }
 
+        // sort in ascending or descending order by name
         if (inputAction.getSortType().equals(Constants.ASC)) {
-            Collections.sort(filteredSortedList, new QueryActor.SortActorByNameAsc());
+            Collections.sort(filteredSortedList, new Comparators.SortActorByNameAsc());
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
-            Collections.sort(filteredSortedList, new QueryActor.SortActorByNameDesc());
+            Collections.sort(filteredSortedList, new Comparators.SortActorByNameDesc());
         }
         return filteredSortedList;
     }
 
-    public String applyQuery(ActionInputData inputAction, ActorsRepo actorsRepo,
-                             MoviesRepo moviesRepo, SerialsRepo serialsRepo,
-                             String queryType) {
+    /**
+     * Apply the query for the given query type
+     * @param inputAction the data of the action
+     * @param actorsRepo the actors database
+     * @param moviesRepo the movies database
+     * @param serialsRepo the serials database
+     * @param queryType the input query type
+     * @return the output message
+     */
+    public String applyQuery(final ActionInputData inputAction, final ActorsRepo actorsRepo,
+                             final MoviesRepo moviesRepo, final SerialsRepo serialsRepo,
+                             final String queryType) {
         StringBuilder message = new StringBuilder();
         message.append("Query result: [");
         // build an arraylist containing the shows sorted by query type,
         // which have the wanted genre & year
-        ArrayList<Actor> finalSortedActors = new ArrayList<>();
+        ArrayList<Actor> finalSortedActors;
+
         switch (queryType) {
-            case Constants.AVERAGE -> finalSortedActors = getAverageActorList(inputAction,
-                    actorsRepo, moviesRepo, serialsRepo);
-            case Constants.AWARDS -> finalSortedActors = getAwardsActorList(inputAction,
-                    actorsRepo);
-            case Constants.FILTER_DESCRIPTIONS  -> finalSortedActors = getDescriptionActorList(inputAction,
-                    actorsRepo);
+            case Constants.AVERAGE -> {
+                finalSortedActors = getAverageActorList(inputAction,
+                        actorsRepo, moviesRepo, serialsRepo);
+            }
+            case Constants.AWARDS -> {
+                finalSortedActors = getAwardsActorList(inputAction, actorsRepo);
+            }
+            case Constants.FILTER_DESCRIPTIONS -> {
+                finalSortedActors = getDescriptionActorList(inputAction, actorsRepo);
+            }
+            default -> {
+                finalSortedActors = null;
+            }
         }
+
 
         int numberListElem = inputAction.getNumber();
 

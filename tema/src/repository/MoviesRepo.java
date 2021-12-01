@@ -15,7 +15,7 @@ public final class MoviesRepo {
      */
     private final List<Movie> moviesData;
 
-    public MoviesRepo(Input input) {
+    public MoviesRepo(final Input input) {
         moviesData = new ArrayList<>();
         for (MovieInputData inputMovie : input.getMovies()) {
             Movie newMovie = new Movie(inputMovie.getTitle(),
@@ -28,12 +28,15 @@ public final class MoviesRepo {
     /**
      * Initialises the view number of all movies, according
      * to each user's view count
-     * @param usersRepo
+     * @param usersRepo the users database
      */
-    public void initialiseViewNumber(UsersRepo usersRepo) {
+    public void initialiseViewNumber(final UsersRepo usersRepo) {
         for (Movie movie : moviesData) {
             for (User user : usersRepo.getUsersData()) {
+                // if the movie was watched by the user
                 if (user.getHistory().containsKey(movie.getTitle())) {
+                    // increase the view number for as many times as the view
+                    // number is in the history hashmap
                     for (int i = 0; i < user.getHistory().get(movie.getTitle()); i++) {
                         movie.increaseViewNumber();
                     }
@@ -45,9 +48,9 @@ public final class MoviesRepo {
     /**
      * Initialises the favorite number of all movies, according
      * to each user's view count
-     * @param usersRepo
+     * @param usersRepo the users database
      */
-    public void initialiseFavoriteNumber(UsersRepo usersRepo) {
+    public void initialiseFavoriteNumber(final UsersRepo usersRepo) {
         for (Movie movie : moviesData) {
             for (User user : usersRepo.getUsersData()) {
                 if (user.getFavoriteMovies().contains(movie.getTitle())) {
@@ -66,7 +69,7 @@ public final class MoviesRepo {
      * @param movieTitle the searched title of the movie
      * @return the found movie
      */
-    public Movie getMovieByTitle(String movieTitle) {
+    public Movie getMovieByTitle(final String movieTitle) {
         for (Movie movie : moviesData) {
             if (movie.getTitle().equals(movieTitle)) {
                 return movie;

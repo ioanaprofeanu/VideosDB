@@ -5,30 +5,28 @@ import action.Query.QueryActor;
 import action.Query.QueryUser;
 import action.Query.QueryVideo;
 import action.Recommendation;
-import actor.Actor;
-import checker.Checkstyle;
 import checker.Checker;
+import checker.Checkstyle;
 import common.Constants;
-import entertainment.Movie;
-import entertainment.Serial;
-import fileio.*;
+import fileio.ActionInputData;
+import fileio.Input;
+import fileio.InputLoader;
+import fileio.Writer;
 import org.json.simple.JSONArray;
 import repository.ActorsRepo;
 import repository.MoviesRepo;
 import repository.SerialsRepo;
 import repository.UsersRepo;
-import user.User;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Objects;
 
 /**
- * The entry point to this homework. It runs the checker that tests your implentation.
+ * The entry point to this homework. It runs the checker that tests your implantation.
  */
 public final class Main {
     /**
@@ -99,18 +97,19 @@ public final class Main {
                 case Constants.COMMAND -> {
                     Command command = new Command();
                     switch (inputAction.getType()) {
-                        case Constants.FAVORITE -> {
-                            arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
-                                    null, command.addFavorite(inputAction, usersRepo, moviesRepo, serialsRepo)));
-                        }
-                        case Constants.VIEW -> {
-                            arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
-                                    null, command.addView(inputAction, usersRepo, moviesRepo, serialsRepo)));
-                        }
-                        case Constants.RATING -> {
-                            arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
-                                    null, command.addRating(inputAction, usersRepo, moviesRepo, serialsRepo)));
-                        }
+                        case Constants.FAVORITE -> arrayResult.add(fileWriter.
+                                writeFile(inputAction.getActionId(), null,
+                                        command.addFavorite(inputAction, usersRepo,
+                                                moviesRepo, serialsRepo)));
+                        case Constants.VIEW -> arrayResult.add(fileWriter.
+                                writeFile(inputAction.getActionId(), null,
+                                        command.addView(inputAction, usersRepo,
+                                                moviesRepo, serialsRepo)));
+                        case Constants.RATING -> arrayResult.add(fileWriter.
+                                writeFile(inputAction.getActionId(), null,
+                                        command.addRating(inputAction, usersRepo,
+                                                moviesRepo, serialsRepo)));
+                        default -> System.out.println("Error parsing input");
                     }
                 }
                 case Constants.QUERY -> {
@@ -118,25 +117,30 @@ public final class Main {
                         case Constants.ACTORS -> {
                             QueryActor queryActor = new QueryActor();
                             arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
-                                    null, queryActor.applyQuery(inputAction, actorsRepo, moviesRepo, serialsRepo, inputAction.getCriteria())));
+                                    null, queryActor.applyQuery(inputAction, actorsRepo,
+                                            moviesRepo, serialsRepo, inputAction.getCriteria())));
                         }
                         case Constants.MOVIES, Constants.SHOWS -> {
                             QueryVideo queryVideo = new QueryVideo();
                             arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
-                                    null, queryVideo.applyQuery(inputAction, moviesRepo, serialsRepo, inputAction.getCriteria())));
+                                    null, queryVideo.applyQuery(inputAction, moviesRepo,
+                                            serialsRepo, inputAction.getCriteria())));
                         }
                         case Constants.USERS -> {
                             QueryUser queryUser = new QueryUser();
                             arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
                                     null, queryUser.applyQuery(inputAction, usersRepo)));
                         }
+                        default -> System.out.println("Error parsing input");
                     }
                 }
                 case Constants.RECOMMENDATION -> {
                     Recommendation recommendation = new Recommendation();
                     arrayResult.add(fileWriter.writeFile(inputAction.getActionId(),
-                            null, recommendation.applyRecommendation(inputAction, usersRepo, moviesRepo, serialsRepo, inputAction.getType())));
+                            null, recommendation.applyRecommendation(inputAction, usersRepo,
+                                    moviesRepo, serialsRepo, inputAction.getType())));
                 }
+                default -> System.out.println("Error parsing input");
             }
         }
         fileWriter.closeJSON(arrayResult);

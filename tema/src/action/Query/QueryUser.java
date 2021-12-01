@@ -4,50 +4,30 @@ import common.Constants;
 import fileio.ActionInputData;
 import repository.UsersRepo;
 import user.User;
+import utils.Comparators;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class QueryUser {
-    static class SortUserByRatingAsc implements Comparator<User> {
-        @Override
-        public int compare(User o1, User o2) {
-            if (o2.getRatedMovies().size() == o1.getRatedMovies().size()) {
-                return o1.getUsername().compareTo(o2.getUsername());
-            }
-            if (o2.getRatedMovies().size() < o1.getRatedMovies().size()) {
-                return 1;
-            }
-            return -1;
-        }
-    }
-
-    static class SortUserByRatingDesc implements Comparator<User> {
-        @Override
-        public int compare(User o1, User o2) {
-            if (o1.getRatedMovies().size() == o2.getRatedMovies().size()) {
-                return o2.getUsername().compareTo(o1.getUsername());
-            }
-            if (o1.getRatedMovies().size() < o2.getRatedMovies().size()) {
-                return 1;
-            }
-            return -1;
-        }
-    }
-
-    public String applyQuery(ActionInputData inputAction,
-                            UsersRepo usersRepo) {
+    /**
+     * Apply the query
+     * @param inputAction the data of the action
+     * @param usersRepo the users database
+     * @return the output message
+     */
+    public String applyQuery(final ActionInputData inputAction, final UsersRepo usersRepo) {
         StringBuilder message = new StringBuilder();
         message.append("Query result: [");
+        // get a list of all reviewers user
         ArrayList<User> reviewersList = usersRepo.getReviewersUsers();
         int numberListElem = inputAction.getNumber();
 
-        // if the order is ascending
+        // sort in ascending or descending order by rating and by name
         if (inputAction.getSortType().equals(Constants.ASC)) {
-            Collections.sort(reviewersList, new SortUserByRatingAsc());
+            Collections.sort(reviewersList, new Comparators.SortUserByRatingAsc());
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
-            Collections.sort(reviewersList, new SortUserByRatingDesc());
+            Collections.sort(reviewersList, new Comparators.SortUserByRatingDesc());
         }
 
         // if the list is smaller than the wanted size

@@ -10,6 +10,14 @@ import user.User;
 import java.util.ArrayList;
 
 public class Command {
+    /**
+     *
+     * @param inputAction
+     * @param usersRepo
+     * @param moviesRepo
+     * @param serialsRepo
+     * @return
+     */
     public String addFavorite(final ActionInputData inputAction,
                             final UsersRepo usersRepo, final MoviesRepo moviesRepo,
                             final SerialsRepo serialsRepo) {
@@ -38,6 +46,14 @@ public class Command {
         return message;
     }
 
+    /**
+     *
+     * @param inputAction
+     * @param usersRepo
+     * @param moviesRepo
+     * @param serialsRepo
+     * @return
+     */
     public String addView(final ActionInputData inputAction,
                           final UsersRepo usersRepo, final MoviesRepo moviesRepo,
                           final SerialsRepo serialsRepo) {
@@ -61,6 +77,14 @@ public class Command {
         return message;
     }
 
+    /**
+     *
+     * @param inputAction
+     * @param usersRepo
+     * @param moviesRepo
+     * @param serialsRepo
+     * @return
+     */
     public String addRating(final ActionInputData inputAction,
                             final UsersRepo usersRepo, final MoviesRepo moviesRepo,
                             final SerialsRepo serialsRepo) {
@@ -89,22 +113,26 @@ public class Command {
                     // if the user has started rated a season from the serial
                     if (serial.getRatedSeasonByUsers().containsKey(user.getUsername())) {
                         // if the rated season is the one that is being rated now
-                        if (serial.getRatedSeasonByUsers().get(user.getUsername()).contains(inputAction.getSeasonNumber())) {
+                        if (serial.getRatedSeasonByUsers().get(user.getUsername()).
+                                contains(inputAction.getSeasonNumber())) {
                             message = "error -> " + showTitle + " has been already rated";
                             return message;
                         } else {
                             // if it is a new season, add it to the list
-                            serial.getRatedSeasonByUsers().get(user.getUsername()).add(inputAction.getSeasonNumber());
+                            serial.getRatedSeasonByUsers().get(user.getUsername()).
+                                    add(inputAction.getSeasonNumber());
                         }
                     } else {
                         ArrayList<Integer> auxiliaryList = new ArrayList<>();
                         auxiliaryList.add(inputAction.getSeasonNumber());
                         serial.getRatedSeasonByUsers().put(user.getUsername(), auxiliaryList);
                     }
-                    serialsRepo.getSerialByTitle(showTitle).addSeasonRating(inputAction.getSeasonNumber(), grade);
+                    serialsRepo.getSerialByTitle(showTitle).
+                            addSeasonRating(inputAction.getSeasonNumber(), grade);
                     user.getRatedMovies().add(showTitle);
                 }
-                message = "success -> " + showTitle + " was rated with " + grade + " by " + user.getUsername();
+                message = "success -> " + showTitle + " was rated with "
+                        + grade + " by " + user.getUsername();
             } else {
                 message = "error -> " + showTitle + " is not seen";
                 return message;

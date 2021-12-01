@@ -44,25 +44,32 @@ public class Actor {
     }
 
     /**
-     * Set the average rating of the shows
+     * Set the average rating of all the shows
      * an actor plays in
      * @param moviesRepo the movies database
      * @param serialsRepo the serials database
      */
-    public void setAverageActorRating(MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
+    public void setAverageActorRating(final MoviesRepo moviesRepo, final SerialsRepo serialsRepo) {
         double sumOfRatings = 0;
         int noRatings = 0;
+
         for (String title : this.filmography) {
+            // iterate through all movies
             for (Movie movie : moviesRepo.getMoviesData()) {
+                // if the movie was rated
                 if (movie.getAverageRating() > 0) {
+                    // if the actor played in the movie
                     if (movie.getTitle().equals(title)) {
                         noRatings++;
                         sumOfRatings += movie.getAverageRating();
                     }
                 }
             }
+            // iterate through all serials
             for (Serial serial : serialsRepo.getSerialsData()) {
+                // if the serial was rated
                 if (serial.getAverageRating() > 0) {
+                    // if the actor played in the serial
                     if (serial.getTitle().equals(title)) {
                         noRatings++;
                         sumOfRatings += serial.getAverageRating();
@@ -75,7 +82,7 @@ public class Actor {
 
     /**
      * Get the number of awards an actor has won
-     * @return
+     * @return the number won of awards
      */
     public int getNumberOfAwards() {
         int noAwards = 0;
@@ -105,7 +112,7 @@ public class Actor {
         return awards;
     }
 
-    public void setAwards(Map<ActorsAwards, Integer> awards) {
+    public void setAwards(final Map<ActorsAwards, Integer> awards) {
         this.awards = awards;
     }
 

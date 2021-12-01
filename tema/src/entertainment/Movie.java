@@ -31,14 +31,15 @@ public class Movie extends Show {
     public List<Double> getRatings() {
         return ratings;
     }
+
     /**
      * Get the average rating of a movie
+     * Iterate through the ratings list and
+     * calculate the average
      * @return the average rating
      */
     public double getAverageRating() {
-        if (ratings == null) {
-            return 0;
-        }
+        // if the movie isn't rated yet
         if (ratings.size() == 0) {
             return 0;
         }

@@ -5,167 +5,49 @@ import entertainment.Show;
 import fileio.ActionInputData;
 import repository.MoviesRepo;
 import repository.SerialsRepo;
+import utils.Comparators;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class QueryVideo {
     /**
-     * Sort video list by rating in ascending order
-     */
-    static class SortVideoByRatingAsc implements Comparator<Show> {
-        @Override
-        public int compare(Show o1, Show o2) {
-            if (o2.getAverageRating() == o1.getAverageRating()) {
-                return o1.getTitle().compareTo(o2.getTitle());
-            }
-            if (o2.getAverageRating() < o1.getAverageRating()) {
-                   return 1;
-            }
-            return -1;
-        }
-    }
-
-    /**
-     * Sort video list by rating in descending order
-     */
-    static class SortVideoByRatingDesc implements Comparator<Show> {
-        @Override
-        public int compare(Show o1, Show o2) {
-            if (o1.getAverageRating() == o2.getAverageRating()) {
-                return o2.getTitle().compareTo(o1.getTitle());
-            }
-            if (o1.getAverageRating() < o2.getAverageRating()) {
-                return 1;
-            }
-            return -1;
-        }
-    }
-
-    /**
-     * Sort video list by favorite in ascending order
-     */
-    static class SortVideoByFavoriteAsc implements Comparator<Show> {
-        @Override
-        public int compare(Show o1, Show o2) {
-            if (o2.getFavoriteNumber() == o1.getFavoriteNumber()) {
-                return o1.getTitle().compareTo(o2.getTitle());
-            }
-            if (o2.getFavoriteNumber() < o1.getFavoriteNumber()) {
-                return 1;
-            }
-            return -1;
-        }
-    }
-
-    /**
-     * Sort video list by favorite in descending order
-     */
-    static class SortVideoByFavoriteDesc implements Comparator<Show> {
-        @Override
-        public int compare(Show o1, Show o2) {
-            if (o1.getFavoriteNumber() == o2.getFavoriteNumber()) {
-                return o2.getTitle().compareTo(o1.getTitle());
-            }
-            if (o1.getFavoriteNumber() < o2.getFavoriteNumber()) {
-                return 1;
-            }
-            return -1;
-        }
-    }
-
-    /**
-     * Sort video list by duration in ascending order
-     */
-    static class SortVideoByDurationAsc implements Comparator<Show> {
-        @Override
-        public int compare(Show o1, Show o2) {
-            if (o2.getDuration() == o1.getDuration()) {
-                return o1.getTitle().compareTo(o2.getTitle());
-            }
-            if (o2.getDuration() < o1.getDuration()) {
-                return 1;
-            }
-            return -1;
-        }
-    }
-
-    /**
-     * Sort video list by view in descending order
-     */
-    static class SortVideoByDurationDesc implements Comparator<Show> {
-        @Override
-        public int compare(Show o1, Show o2) {
-            if (o1.getDuration() == o2.getDuration()) {
-                return o2.getTitle().compareTo(o1.getTitle());
-            }
-            if (o1.getDuration() < o2.getDuration()) {
-                return 1;
-            }
-            return -1;
-        }
-    }
-
-    /**
-     * Sort video list by view in ascending order
-     */
-    static class SortVideoByViewsAsc implements Comparator<Show> {
-        @Override
-        public int compare(Show o1, Show o2) {
-            if (o2.getViewNumber() == o1.getViewNumber()) {
-                return o1.getTitle().compareTo(o2.getTitle());
-            }
-            if (o2.getViewNumber() < o1.getViewNumber()) {
-                return 1;
-            }
-            return -1;
-        }
-    }
-
-    /**
-     * Sort video list by view in descending order
-     */
-    static class SortVideoByViewsDesc implements Comparator<Show> {
-        @Override
-        public int compare(Show o1, Show o2) {
-            if (o1.getViewNumber() == o2.getViewNumber()) {
-                return o2.getTitle().compareTo(o1.getTitle());
-            }
-            if (o1.getViewNumber() < o2.getViewNumber()) {
-                return 1;
-            }
-            return -1;
-        }
-    }
-
-    /**
      * Filter a show list by genre and year
-     * @param inputAction
-     * @param showList a sorted input show list
-     * @return the list filtered by genre and year
+     * @param inputAction the data of the action
+     * @param showList an input show list
+     * @return the show list filtered by genre and year
      */
-    public ArrayList<Show> filteredSortedShows(ActionInputData inputAction, ArrayList<Show> showList) {
+    public ArrayList<Show> filteredSortedShows(final ActionInputData inputAction,
+                                               final ArrayList<Show> showList) {
+        // initialise the filtered and sorted show list as a copy
+        // of the input show list
         ArrayList<Show> filteredSortedList = new ArrayList<>(showList);
+        // get the filters genre and year lists
         List<String> genreList = inputAction.getFilters().get(Constants.GENRE_FIELD_FILTERS);
         List<String> yearList = inputAction.getFilters().get(Constants.YEAR_FIELD_FILTERS);
 
-        // for each show from the sorted show list
+        // for each show from the show list
         for (Show show : showList) {
             // if the input genre list is not null
             if (genreList.get(0) != null) {
                 // for each genre in the genre list
                 for (String genre : genreList) {
-                    // check if the current show contains the genre in its genre list;
-                    // otherwise, remove it from the filtered and sorted list
+                    // check if the current show contains the
+                    // genre in its genre list; otherwise, remove
+                    // it from the filtered and sorted list
                     if (!show.getGenres().contains(genre)) {
                         filteredSortedList.remove(show);
                     }
                 }
             }
+            // if the input year list is not null
             if (yearList.get(0) != null) {
+                // for each year in the year list
                 for (String year : yearList) {
+                    // check if the year matches the show's year;
+                    // otherwise, remove it from the filtered and
+                    // sorted list
                     if (!Integer.toString(show.getYear()).equals(year)) {
                         filteredSortedList.remove(show);
                     }
@@ -176,140 +58,162 @@ public class QueryVideo {
     }
 
     /**
-     * Returns the list of shows filtered and sorted
-     * @param inputAction
-     * @param moviesRepo
-     * @param serialsRepo
-     * @return
+     * Create the list of shows sorted by their rating and by the given filters
+     * @param inputAction the data of the action
+     * @param moviesRepo the movies database
+     * @param serialsRepo the serials database
+     * @return the filtered and sorted by rating list of shows
      */
-    public ArrayList<Show> getRatingsShowList(ActionInputData inputAction,
-                                              MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
+    public ArrayList<Show> getRatingsShowList(final ActionInputData inputAction,
+                                              final MoviesRepo moviesRepo,
+                                              final SerialsRepo serialsRepo) {
         ArrayList<Show> sortedShows = new ArrayList<>();
+        // get the rated movies or serials list, filter it and add it
+        // to the new list, depending on the object type of the input action
         if (inputAction.getObjectType().equals(Constants.MOVIES)) {
             sortedShows.addAll(filteredSortedShows(inputAction, moviesRepo.getRatedMovies()));
         } else if (inputAction.getObjectType().equals(Constants.SHOWS)) {
             sortedShows.addAll(filteredSortedShows(inputAction, serialsRepo.getRatedSerials()));
         }
 
+        // sort in ascending or descending order by rating and by name
         if (inputAction.getSortType().equals(Constants.ASC)) {
-            Collections.sort(sortedShows, new SortVideoByRatingAsc());
+            Collections.sort(sortedShows, new Comparators.SortVideoByRatingNameAsc());
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
-            Collections.sort(sortedShows, new SortVideoByRatingDesc());
+            Collections.sort(sortedShows, new Comparators.SortVideoByRatingNameDesc());
         }
         return sortedShows;
     }
 
     /**
-     * Returns the favorites list filtered and sorted
-     * @param inputAction
-     * @param moviesRepo
-     * @param serialsRepo
-     * @return
+     * Create the list of shows sorted by favorite and by the given filters
+     * @param inputAction the data of the action
+     * @param moviesRepo the movies database
+     * @param serialsRepo the serials database
+     * @return the filtered and sorted by favorite list of shows
      */
-    public ArrayList<Show> getFavoriteShowList(ActionInputData inputAction,
-                                              MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
+    public ArrayList<Show> getFavoriteShowList(final ActionInputData inputAction,
+                                               final MoviesRepo moviesRepo,
+                                               final SerialsRepo serialsRepo) {
         ArrayList<Show> sortedShows = new ArrayList<>();
+        // get the favorite movies or serials list, filter it and add it
+        // to the new list, depending on the object type of the input action
         if (inputAction.getObjectType().equals(Constants.MOVIES)) {
             sortedShows.addAll(filteredSortedShows(inputAction, moviesRepo.getFavoriteMovies()));
         } else if (inputAction.getObjectType().equals(Constants.SHOWS)) {
             sortedShows.addAll(filteredSortedShows(inputAction, serialsRepo.getFavoriteSerials()));
         }
 
+        // sort in ascending or descending order by favorite and by name
         if (inputAction.getSortType().equals(Constants.ASC)) {
-            Collections.sort(sortedShows, new SortVideoByFavoriteAsc());
+            Collections.sort(sortedShows, new Comparators.SortVideoByFavoriteNameAsc());
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
-            Collections.sort(sortedShows, new SortVideoByFavoriteDesc());
+            Collections.sort(sortedShows, new Comparators.SortVideoByFavoriteNameDesc());
         }
         return sortedShows;
     }
 
     /**
-     * Returns the list of shows filtered and sorted by length
-     * @param inputAction
-     * @param moviesRepo
-     * @param serialsRepo
-     * @return
+     * Create the list of shows sorted by duration and by the given filters
+     * @param inputAction the data of the action
+     * @param moviesRepo the movies database
+     * @param serialsRepo the serials database
+     * @return the filtered and sorted by duration list of shows
      */
-    public ArrayList<Show> getLongestShowList(ActionInputData inputAction,
-                                               MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
+    public ArrayList<Show> getLongestShowList(final ActionInputData inputAction,
+                                              final MoviesRepo moviesRepo,
+                                              final SerialsRepo serialsRepo) {
         ArrayList<Show> sortedShows = new ArrayList<>();
+        // get all movies or serials list, filter it and add it
+        // to the new list, depending on the object type of the input action
         if (inputAction.getObjectType().equals(Constants.MOVIES)) {
             sortedShows.addAll(filteredSortedShows(inputAction, moviesRepo.getMoviesShowData()));
         } else if (inputAction.getObjectType().equals(Constants.SHOWS)) {
             sortedShows.addAll(filteredSortedShows(inputAction, serialsRepo.getSerialShowData()));
         }
 
+        // sort in ascending or descending order by duration and by name
         if (inputAction.getSortType().equals(Constants.ASC)) {
-            Collections.sort(sortedShows, new SortVideoByDurationAsc());
+            Collections.sort(sortedShows, new Comparators.SortVideoByDurationNameAsc());
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
-            Collections.sort(sortedShows, new SortVideoByDurationDesc());
+            Collections.sort(sortedShows, new Comparators.SortVideoByDurationNameDesc());
         }
         return sortedShows;
     }
 
     /**
-     * Returns the viewed list filtered and sorted
-     * @param inputAction
-     * @param moviesRepo
-     * @param serialsRepo
-     * @return
+     * Create the list of shows sorted by views and by the given filters
+     * @param inputAction the data of the action
+     * @param moviesRepo the movies database
+     * @param serialsRepo the serials database
+     * @return the filtered and sorted by views list of shows
      */
-    public ArrayList<Show> getMostViewedShowList(ActionInputData inputAction,
-                                               MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
+    public ArrayList<Show> getMostViewedShowList(final ActionInputData inputAction,
+                                                 final MoviesRepo moviesRepo,
+                                                 final SerialsRepo serialsRepo) {
         ArrayList<Show> sortedShows = new ArrayList<>();
+        // get the viewed movies or serials list, filter it and add it
+        // to the new list, depending on the object type of the input action
         if (inputAction.getObjectType().equals(Constants.MOVIES)) {
             sortedShows.addAll(filteredSortedShows(inputAction, moviesRepo.getViewedMovies()));
         } else if (inputAction.getObjectType().equals(Constants.SHOWS)) {
             sortedShows.addAll(filteredSortedShows(inputAction, serialsRepo.getViewedSerials()));
         }
 
+        // sort in ascending or descending order by views and by name
         if (inputAction.getSortType().equals(Constants.ASC)) {
-            Collections.sort(sortedShows, new SortVideoByViewsAsc());
+            Collections.sort(sortedShows, new Comparators.SortVideoByViewsNameAsc());
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
-            Collections.sort(sortedShows, new SortVideoByViewsDesc());
+            Collections.sort(sortedShows, new Comparators.SortVideoByViewsNameDesc());
         }
         return sortedShows;
     }
     /**
      * Apply the query depending on the type
-     * @param inputAction
-     * @param moviesRepo
-     * @param serialsRepo
-     * @return
+     * @param inputAction the data of the action
+     * @param moviesRepo the movies database
+     * @param serialsRepo the serials database
+     * @return the output message
      */
-    public String applyQuery(ActionInputData inputAction,
-                                    MoviesRepo moviesRepo, SerialsRepo serialsRepo,
-                                    String queryType) {
-            StringBuilder message = new StringBuilder();
-            message.append("Query result: [");
-            // build an arraylist containing the shows sorted by query type,
-            // which have the wanted genre & year
-            ArrayList<Show> finalSortedShows = new ArrayList<>();
-            switch (queryType) {
-                case Constants.RATINGS -> finalSortedShows = getRatingsShowList(inputAction,
-                        moviesRepo, serialsRepo);
-                case Constants.FAVORITE -> finalSortedShows = getFavoriteShowList(inputAction,
-                        moviesRepo, serialsRepo);
-                case Constants.LONGEST  -> finalSortedShows = getLongestShowList(inputAction,
-                        moviesRepo, serialsRepo);
-                case Constants.MOST_VIEWED -> finalSortedShows = getMostViewedShowList(inputAction,
-                        moviesRepo, serialsRepo);
+    public String applyQuery(final ActionInputData inputAction, final MoviesRepo moviesRepo,
+                             final SerialsRepo serialsRepo, final String queryType) {
+        StringBuilder message = new StringBuilder();
+        message.append("Query result: [");
+        // build an arraylist containing the shows sorted by query type,
+        // which have the wanted genre & year
+        ArrayList<Show> finalSortedShows = new ArrayList<>();
+        switch (queryType) {
+            case Constants.RATINGS -> {
+                finalSortedShows = getRatingsShowList(inputAction, moviesRepo, serialsRepo);
             }
+            case Constants.FAVORITE -> {
+                finalSortedShows = getFavoriteShowList(inputAction, moviesRepo, serialsRepo);
+            }
+            case Constants.LONGEST -> {
+                finalSortedShows = getLongestShowList(inputAction, moviesRepo, serialsRepo);
+            }
+            case Constants.MOST_VIEWED -> {
+                finalSortedShows = getMostViewedShowList(inputAction, moviesRepo, serialsRepo);
+            }
+            default -> {
+                finalSortedShows = null;
+            }
+        }
 
-            int numberListElem = inputAction.getNumber();
-            // if the list is smaller than the wanted size
-            if (finalSortedShows.size() < numberListElem) {
-                numberListElem = finalSortedShows.size();
-            }
+        int numberListElem = inputAction.getNumber();
+        // if the list is smaller than the wanted size
+        if (finalSortedShows.size() < numberListElem) {
+            numberListElem = finalSortedShows.size();
+        }
 
-            // print titles
-            for (int i = 0; i < numberListElem; i++) {
-                message.append(finalSortedShows.get(i).getTitle());
-                if (i < numberListElem - 1) {
-                    message.append(", ");
-                }
+        // print titles
+        for (int i = 0; i < numberListElem; i++) {
+            message.append(finalSortedShows.get(i).getTitle());
+            if (i < numberListElem - 1) {
+                message.append(", ");
             }
-            message.append("]");
-            return message.toString();
+        }
+        message.append("]");
+        return message.toString();
     }
 }

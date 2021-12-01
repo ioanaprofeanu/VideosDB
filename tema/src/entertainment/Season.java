@@ -32,10 +32,18 @@ public final class Season {
         return currentSeason;
     }
 
+    /**
+     * Get the average rating of a season
+     * Iterate through the ratings list and
+     * calculate the average
+     * @return
+     */
     public double getAverageSeasonRating() {
+        // if the season isn't rated yet
         if (this.ratings.size() == 0) {
             return 0;
         }
+
         double sumOfGrades = 0;
         int noGrades = 0;
         for (Double rating : this.ratings) {

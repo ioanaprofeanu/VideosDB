@@ -12,7 +12,7 @@ public final class ActorsRepo {
      */
     private final ArrayList<Actor> actorsData;
 
-    public ActorsRepo(Input input) {
+    public ActorsRepo(final Input input) {
         actorsData = new ArrayList<>();
         for (ActorInputData inputActor : input.getActors()) {
             Actor newActor = new Actor(inputActor.getName(),
@@ -24,17 +24,18 @@ public final class ActorsRepo {
 
     /**
      * Sets the value of the rating of each actor
-     * @param moviesRepo
-     * @param serialsRepo
+     * @param moviesRepo the movies database
+     * @param serialsRepo the serials database
      */
-    public void setActorsRating (MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
+    public void setActorsRating(final MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
         for (Actor actor : actorsData) {
             actor.setAverageActorRating(moviesRepo, serialsRepo);
         }
     }
+
     /**
-     * Get a list of all rated actors
-     * @return
+     * Get a list of all actors who played in rated shows
+     * @return the rated actors list
      */
     public ArrayList<Actor> getRatedActors() {
         ArrayList<Actor> ratedActorsList = new ArrayList<>();

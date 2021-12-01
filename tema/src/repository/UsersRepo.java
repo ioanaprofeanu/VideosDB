@@ -44,7 +44,7 @@ public final class UsersRepo {
      * Gets all users who have given a review
      * @return list of all reviewers
      */
-    public ArrayList<User> getReviewersUsers () {
+    public ArrayList<User> getReviewersUsers() {
         ArrayList<User> reviewersList = new ArrayList<>();
         for (User user : usersData) {
             if (user.getRatedMovies().size() > 0) {
