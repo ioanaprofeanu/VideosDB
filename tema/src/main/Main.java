@@ -80,7 +80,7 @@ public final class Main {
         Writer fileWriter = new Writer(filePath2);
         JSONArray arrayResult = new JSONArray();
 
-        //TODO add here the entry point to your implementation
+        // initialise the repositories using the input data
         MoviesRepo moviesRepo = new MoviesRepo(input);
         SerialsRepo serialsRepo = new SerialsRepo(input);
         UsersRepo usersRepo = new UsersRepo(input);
@@ -92,6 +92,7 @@ public final class Main {
         serialsRepo.initialiseViewNumber(usersRepo);
         serialsRepo.initialiseFavoriteNumber(usersRepo);
 
+        // iterate through each input command and perform the given action
         for (ActionInputData inputAction : input.getCommands()) {
             switch (inputAction.getActionType()) {
                 case Constants.COMMAND -> {

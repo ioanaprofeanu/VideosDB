@@ -16,14 +16,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * Class for performing the recommendation actions
+ */
 public class Recommendation {
     /**
      * Create a hashmap which contains the genre of the shows within the database as key
      * and a list of all shows within that genre as value
      * @param moviesRepo the movies database
      * @param serialsRepo the serials database
-     * @return a hashmap which has the genre as ket and the value as a list of shows
+     * @return a hashmap which has the genre as key and the value as a list of shows
      */
     public Map<String, ArrayList<Show>> getGenreHashmap(final MoviesRepo moviesRepo,
                                                         final SerialsRepo serialsRepo) {
@@ -156,6 +158,7 @@ public class Recommendation {
             genresViews.add(getGenreViews(genreHashmap, genre));
         }
 
+        // while the list of genre views is not empty
         do {
             // get the maximum value of the genreViews list, then remove it from the list
             Integer maxViews = Collections.max(genresViews);
@@ -193,7 +196,7 @@ public class Recommendation {
      */
     public String favoriteRecommendation(final User user, final MoviesRepo moviesRepo,
                                          final SerialsRepo serialsRepo) {
-        // create a list of all shows favorite, first adding the movies and then the serials,
+        // create a list of all favorite shows, first adding the movies and then the serials,
         // in order to get the shows in database order
         ArrayList<Show> sortedShows = new ArrayList<>();
         sortedShows.addAll(moviesRepo.getFavoriteMovies());
@@ -228,7 +231,7 @@ public class Recommendation {
 
         // create the genre hashmap of genres and the shows within that genre
         Map<String, ArrayList<Show>> genreHashmap = getGenreHashmap(moviesRepo, serialsRepo);
-        // if the wanted genre doesn't contain any show
+        // if the wanted genre doesn't contain any shows
         if (!genreHashmap.containsKey(inputAction.getGenre())) {
             return null;
         }
@@ -271,7 +274,7 @@ public class Recommendation {
         String message = null;
         String showTitle = null;
 
-        // for each recommendation type, call the method that the output of the
+        // for each recommendation type, call the method which returns the output of the
         // recommendation; if the output is an exception, print adequate message
         switch (recommendationType) {
             case Constants.STANDARD -> {

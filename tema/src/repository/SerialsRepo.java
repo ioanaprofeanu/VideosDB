@@ -9,6 +9,9 @@ import user.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class which contains the serials database
+ */
 public final class SerialsRepo {
     /**
      * List of serials aka tv shows

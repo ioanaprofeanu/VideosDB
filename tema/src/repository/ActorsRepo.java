@@ -6,6 +6,9 @@ import fileio.Input;
 
 import java.util.ArrayList;
 
+/**
+ * Class which contains the actors database
+ */
 public final class ActorsRepo {
     /**
      * List of actors

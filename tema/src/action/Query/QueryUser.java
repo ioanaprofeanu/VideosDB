@@ -9,6 +9,9 @@ import utils.Comparators;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Class for performing the query user actions
+ */
 public class QueryUser {
     /**
      * Apply the query
@@ -19,7 +22,7 @@ public class QueryUser {
     public String applyQuery(final ActionInputData inputAction, final UsersRepo usersRepo) {
         StringBuilder message = new StringBuilder();
         message.append("Query result: [");
-        // get a list of all reviewers user
+        // get a list of all reviewers users
         ArrayList<User> reviewersList = usersRepo.getReviewersUsers();
 
         // sort in ascending or descending order by the number of given ratings and by name

@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Class for performing the query video actions
+ */
 public class QueryVideo {
     /**
      * Filter a show list by genre and year

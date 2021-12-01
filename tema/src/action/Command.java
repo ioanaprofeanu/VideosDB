@@ -9,6 +9,9 @@ import user.User;
 
 import java.util.ArrayList;
 
+/**
+ * Class for performing the command actions
+ */
 public class Command {
     /**
      * Adds the show to the list of favorite shows of a user
@@ -115,7 +118,7 @@ public class Command {
                     // if the show is a serial
                 } else if (serialsRepo.getSerialByTitle(showTitle) != null) {
                     Serial serial = serialsRepo.getSerialByTitle(showTitle);
-                    // if the user has started rated any season from the serial
+                    // if the user has rated any season from the serial
                     if (serial.getRatedSeasonByUsers().containsKey(user.getUsername())) {
                         // if the to-be-rated season has already been rated
                         if (serial.getRatedSeasonByUsers().get(user.getUsername()).

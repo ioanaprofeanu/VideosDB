@@ -6,6 +6,9 @@ import user.User;
 
 import java.util.Comparator;
 
+/**
+ * Class which implements the comparators used for sorting arraylists within the program
+ */
 public final class Comparators {
     private Comparators() {
     }

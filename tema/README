@@ -16,9 +16,9 @@ shows to watch next.
     * entertainment:
         * Show - abstract class which defines a generic show's information (including the number of
        views and added to favorite)
-        * Movie & Serial - classes which extend the Show class and have define the specific
-       characteristics of movies/shows; also implement the abstract methods for getting the ave-
-       rage rating and the duration
+        * Movie & Serial - classes which extend the Show class and also include the specific
+       characteristics of movies/shows; implement the abstract methods for getting the average
+       rating and the duration
         * Season - class which defines the specific characteristics of a season within a serial
     * user:
         * User - class which contains the details about a user, as well as methods for retrieving
@@ -42,12 +42,12 @@ shows to watch next.
 * Classes used for solving the program:
     * utils:
         * Comparators - class which contains subclasses with the implementation of the comparators
-       used for sorting the object lists by different criteria; each subclass contain an overridden
+       used for sorting the object lists by different criteria; each subclass contains an overridden
        method of the compare method
     * action:
         * the package contains the classes used for different actions within the program
 ---------------------------------------------------------------------------------------------------
-# The actions of the program:
+# Actions implementation:
 
 * Commands: - implementation within the action -> Command class
     1. Favorite : first, if the user has not seen the show yet or if it is already within the favo-
@@ -63,7 +63,7 @@ shows to watch next.
        season is among the value list of the user's key within the RatedSeasonByUsers hashmap,
        display message; if it is not, add it to the already existing list; otherwise, if the user
        has not rated any season of the serial yet, add new entry to the hashmap; at the end, add
-       the rating to the serial's season rating lis and add the serial's name to the user's list of
+       the rating to the serial's season rating list and add the serial's name to the user's list of
        rated movies
 
 * Queries: - implementation within the action -> Query package
@@ -81,10 +81,10 @@ shows to watch next.
         * Apply Query: using the list returned by the methods for each query case, print the wanted
        number of actors' name
     2. Videos:
-        * Depending on the wanted show type, filter it by year and by genre and the sort it
-       in sort in ascending or descending order and by the query type:
+        * Depending on the wanted show type, filter the list of movies or serials by year and by
+        genre and then sort it in ascending or descending order and by the query type:
             a. Rating : by rating and by name
-            b. Favorite : by the number of views who added it to their favorite list and by name
+            b. Favorite : by the number of users who added it to their favorite list and by name
             c. Longest : by duration and by name
             d. Most Viewed : by the number of views and by name
         * Filter video list: create a new list as a copy of the list with all wanted shows (movies
@@ -97,7 +97,7 @@ shows to watch next.
        descending order by the number of given ratings and by name, then print the wanted number of
        usernames within the sorted list
 
-* Recommendations: implementations within the action -> Recommendation class
+* Recommendations: implementation within the action -> Recommendation class
     1. Basic:
         a. Standard : iterate through the database of movies and then of serials and check if
        the current title was watched or not by the user; if not, return it
@@ -105,11 +105,11 @@ shows to watch next.
        serials in order to keep the database order, sort it in descending order by rating and
        then iterate through it, until finding and returning the first unseen show
     2. Premium:
-        c. Popular : create the genre hashmap and create an arraylist with the number of views of
-       all genres; then, in a do-while, get the maximum value of the arraylist of views, remove it
+        c. Popular : create the genre hashmap and an arraylist with the number of views of all
+       genres; then, in a do-while, get the maximum value of the arraylist of views, remove it
        from the list, get the genre which has that number of views and then iterate through the
-       shows from that genre; if the user has not seen one of the shows, return it; if the user has
-       seen all shows within the genre, repeat the process until finding a show;
+       shows from that genre; if the user has not seen one of the shows, return its title; if the
+       user has seen all shows within the genre, repeat the process until finding an unwatched one
         d. Favorite : create a list with all favorite shows, first adding the movies and then the
        serials in order to keep the database order, sort it in descending order by favorite and
        then iterate through it, until finding and returning the first unseen show
@@ -117,9 +117,9 @@ shows to watch next.
        genre; sort the list in ascending order by rating and create a string with the titles of the
        shows the user has not seen
     * Genre hashmap:
-        - in a method, create a hashmap which contains all genres as keys and the shows
-       which have that genre as the value of each key
+        - in a method, create a hashmap which contains all genres as keys and the shows which have
+       that genre as the value of each key
         - in a method, calculate the total number of views the shows within the given genre have
-    * Apply Recommendation: using the string returned by the methods for each recommendation type
-    check if the recommendation is valid or not and print adequate message
+    * Apply Recommendation: using the string returned by the methods for each recommendation type,
+    check if the recommendation is valid or not and print an adequate error or success message
 ---------------------------------------------------------------------------------------------------

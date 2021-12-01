@@ -6,6 +6,9 @@ import user.User;
 
 import java.util.ArrayList;
 
+/**
+ * Class which contains the users database
+ */
 public final class UsersRepo {
     /**
      * List of users

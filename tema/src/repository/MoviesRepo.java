@@ -9,6 +9,9 @@ import user.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class which contains the movies database
+ */
 public final class MoviesRepo {
     /**
      * List of movies

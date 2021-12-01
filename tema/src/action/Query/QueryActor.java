@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class for performing the query actor actions
+ */
 public class QueryActor {
     /**
      * Create the list of actors sorted by their average rating
