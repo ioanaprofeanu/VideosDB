@@ -12,7 +12,7 @@ public final class UsersRepo {
      */
     private final ArrayList<User> usersData;
 
-    public UsersRepo(Input input) {
+    public UsersRepo(final Input input) {
         usersData = new ArrayList<>();
         for (UserInputData inputUser : input.getUsers()) {
             User newUser = new User(inputUser.getUsername(),
@@ -22,12 +22,8 @@ public final class UsersRepo {
         }
     }
 
-    public ArrayList<User> getUsersData() {
-        return usersData;
-    }
-
     /**
-     * Find the user with a given name
+     * Find the user with a given username
      * @param username the searched name of the user
      * @return the found user
      */
@@ -47,10 +43,16 @@ public final class UsersRepo {
     public ArrayList<User> getReviewersUsers() {
         ArrayList<User> reviewersList = new ArrayList<>();
         for (User user : usersData) {
+            // if the list of rated movies is not empty, it means that
+            // the user reviewed at least one show
             if (user.getRatedMovies().size() > 0) {
                 reviewersList.add(user);
             }
         }
         return reviewersList;
+    }
+
+    public ArrayList<User> getUsersData() {
+        return usersData;
     }
 }

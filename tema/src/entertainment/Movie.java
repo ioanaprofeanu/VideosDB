@@ -6,13 +6,13 @@ import java.util.List;
 /**
  * Information about a movie
  */
-public class Movie extends Show {
+public final class Movie extends Show {
     /**
      * Duration in minutes of a season
      */
     private final int duration;
     /**
-     * Map of all ratings the movie was given
+     * List of all ratings the movie was given
      */
     private final List<Double> ratings;
 
@@ -34,15 +34,16 @@ public class Movie extends Show {
 
     /**
      * Get the average rating of a movie
-     * Iterate through the ratings list and
-     * calculate the average
+     * <p>
+     * Iterate through the ratings list and calculate the average
      * @return the average rating
      */
     public double getAverageRating() {
-        // if the movie isn't rated yet
+        // if the movie wasn't rated yet
         if (ratings.size() == 0) {
             return 0;
         }
+
         double sumOfRatings = 0;
         for (double rating : ratings) {
             sumOfRatings += rating;

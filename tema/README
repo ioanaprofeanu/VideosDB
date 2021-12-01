@@ -1,38 +1,125 @@
-Object Oriented Programming Course
+Profeanu Ioana, 323CA
 Homework - VideosDB
+---------------------------------------------------------------------------------------------------
+# Github Repository
+https://github.com/ioanaprofeanu/VideosDB.git
+---------------------------------------------------------------------------------------------------
+# Overview
 
-November 2021
+* The program simulates a videos database application which allows the users to watch, review and
+search information about the shows and actors details, as well as find recommendation about what
+shows to watch next.
+---------------------------------------------------------------------------------------------------
+# Classes, objects and the links between them
 
-# Info
-https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/tema
+* Object classes:
+    * entertainment:
+        * Show - abstract class which defines a generic show's information (including the number of
+       views and added to favorite)
+        * Movie & Serial - classes which extend the Show class and have define the specific
+       characteristics of movies/shows; also implement the abstract methods for getting the ave-
+       rage rating and the duration
+        * Season - class which defines the specific characteristics of a season within a serial
+    * user:
+        * User - class which contains the details about a user, as well as methods for retrieving
+       and adding information (add views to the history map, check if a show was viewed by the
+       user)
+    * actor:
+        * Actor - class which contains details about an actor, as well as methods for retrieving
+       and adding information (set the average rating of all rated movies the actor played in, get
+       the total number of won awards)
+    * repository:
+        * ActorsRepo - class which contains an arraylist of actor objects and methods for setting
+       the average rating of all actors, for returning a list of all rated actors
+        * MoviesRepo - class which contains an arraylist of movie objects and methods for
+       initialising the view and favorite numbers, retrieving a movie by title, getting a list of
+       all viewed, rated or favorite movies
+        * SerialsRepo - class which contains an arraylist of serial objects and methods similar to
+       the ones found in MoviesRepo
+        * UsersRepo - class which contains an arraylist of user objects and methods for getting an
+       user by username, retrieving a list of all users who reviewed any show
 
-# About the code
+* Classes used for solving the program:
+    * utils:
+        * Comparators - class which contains subclasses with the implementation of the comparators
+       used for sorting the object lists by different criteria; each subclass contain an overridden
+       method of the compare method
+    * action:
+        * the package contains the classes used for different actions within the program
+---------------------------------------------------------------------------------------------------
+# The actions of the program:
 
-We provide the input tests, the logic that parses them and the checker that runs them.
+* Commands: - implementation within the action -> Command class
+    1. Favorite : first, if the user has not seen the show yet or if it is already within the favo-
+   rites list, display error message; otherwise, add the show title to the user's favorite list,
+   as well as increase the number of favorites of the show, then display success message
+    2. View : increase the view number of the show within the user's history view map, then in-
+   crease the number of views of the show
+    3. Rating : if the user has watched the show, check if it is a movie or a serial;
+        - if it is a movie, check if it already rated or not; if yes, display error message;
+       otherwise, add the rating to the movie's list or ratings and add the movie to the user's
+       list of rated movies
+        - if it is a serial, check if the user has rated any season in the past; if the current
+       season is among the value list of the user's key within the RatedSeasonByUsers hashmap,
+       display message; if it is not, add it to the already existing list; otherwise, if the user
+       has not rated any season of the serial yet, add new entry to the hashmap; at the end, add
+       the rating to the serial's season rating lis and add the serial's name to the user's list of
+       rated movies
 
-* test_db - contains the tests in JSON format
-* src
-   * checker - the checker's sources including the checkstyle necessary files, not to be modified
-   * fileio - classes for parsing the input files, not to be modified
-   * common, utils
-        * contain utility classes with constants and static methods
-        * you can add your own functionality in the existing classes or add new classes as well
-   * actor
-        * contains an enum for the types of awards an actor can have - do not modify it
-        * you can add here your actor related classes
-   * entertainment
-        * contains an enum for the supported video genres - do not modify it
-        * class for representing a Season of a tv show - do not modify it
-        * you can add here your entertainment related classes
+* Queries: - implementation within the action -> Query package
+           - the sorting of the list is done using Collections.sort and the comparator suited for
+          each query case
+    1. Actors:
+        a. Average : in a method, create a new list of all actors who played in rated movies and
+       sort it in ascending or descending order by rating and by name
+        b. Awards : in a method, create a new list of all actors, then remove from this list all
+       the actors who did not win the wanted awards; after that, sort the list in ascending or
+       descending order by the number of won awards and by name
+        c. Filter Description : in a method, create a new list of all actors, then remove from
+       this list all actors who don't have the given words in the description, using regex; after
+       that, sort the list in ascending or descending order by name
+        * Apply Query: using the list returned by the methods for each query case, print the wanted
+       number of actors' name
+    2. Videos:
+        * Depending on the wanted show type, filter it by year and by genre and the sort it
+       in sort in ascending or descending order and by the query type:
+            a. Rating : by rating and by name
+            b. Favorite : by the number of views who added it to their favorite list and by name
+            c. Longest : by duration and by name
+            d. Most Viewed : by the number of views and by name
+        * Filter video list: create a new list as a copy of the list with all wanted shows (movies
+        or serials), then remove from the list all shows who don't have the wanted genre and the
+        wanted year
+        * Apply Query: using the list returned by the methods for each query case, print the wanted
+       number of video titles
+    3. Users:
+        a. Number of ratings : create a new list of all reviewers users and sort it in ascending or
+       descending order by the number of given ratings and by name, then print the wanted number of
+       usernames within the sorted list
 
-We encourage you to organize your implementation in packages based on the functionality their classes offer. Try to keep
-your code modular, readable and documented.
-
-# Testing
-
-The Main class runs the checker on your implementation. Add the entry point to your implementation in it.
-
-Run Main to test your implementation from the IDE or from command line.
-
-Run the main method from Test class with the name of the input file from the command line and the result will be written
-to the out.txt file. Thus, you can compare this result with ref.
+* Recommendations: implementations within the action -> Recommendation class
+    1. Basic:
+        a. Standard : iterate through the database of movies and then of serials and check if
+       the current title was watched or not by the user; if not, return it
+        b. Best unseen : create a list with all shows, first adding the movies and then the
+       serials in order to keep the database order, sort it in descending order by rating and
+       then iterate through it, until finding and returning the first unseen show
+    2. Premium:
+        c. Popular : create the genre hashmap and create an arraylist with the number of views of
+       all genres; then, in a do-while, get the maximum value of the arraylist of views, remove it
+       from the list, get the genre which has that number of views and then iterate through the
+       shows from that genre; if the user has not seen one of the shows, return it; if the user has
+       seen all shows within the genre, repeat the process until finding a show;
+        d. Favorite : create a list with all favorite shows, first adding the movies and then the
+       serials in order to keep the database order, sort it in descending order by favorite and
+       then iterate through it, until finding and returning the first unseen show
+        e. Search : create the genre hashmap and extract a list with the shows within the wanted
+       genre; sort the list in ascending order by rating and create a string with the titles of the
+       shows the user has not seen
+    * Genre hashmap:
+        - in a method, create a hashmap which contains all genres as keys and the shows
+       which have that genre as the value of each key
+        - in a method, calculate the total number of views the shows within the given genre have
+    * Apply Recommendation: using the string returned by the methods for each recommendation type
+    check if the recommendation is valid or not and print adequate message
+---------------------------------------------------------------------------------------------------

@@ -13,7 +13,7 @@ public final class MoviesRepo {
     /**
      * List of movies
      */
-    private final List<Movie> moviesData;
+    private final ArrayList<Movie> moviesData;
 
     public MoviesRepo(final Input input) {
         moviesData = new ArrayList<>();
@@ -53,15 +53,12 @@ public final class MoviesRepo {
     public void initialiseFavoriteNumber(final UsersRepo usersRepo) {
         for (Movie movie : moviesData) {
             for (User user : usersRepo.getUsersData()) {
+                // if the movie is within the user's favorite list
                 if (user.getFavoriteMovies().contains(movie.getTitle())) {
                     movie.increaseFavoriteNumber();
                 }
             }
         }
-    }
-
-    public List<Movie> getMoviesData() {
-        return moviesData;
     }
 
     /**
@@ -86,6 +83,7 @@ public final class MoviesRepo {
     public ArrayList<Show> getRatedMovies() {
         ArrayList<Show> ratedMoviesList = new ArrayList<>();
         for (Movie movie : moviesData) {
+            // if the movie was rated
             if (movie.getAverageRating() > 0) {
                 ratedMoviesList.add(movie);
             }
@@ -101,7 +99,8 @@ public final class MoviesRepo {
     public ArrayList<Show> getFavoriteMovies() {
         ArrayList<Show> favoriteMoviesList = new ArrayList<>();
         for (Movie movie : moviesData) {
-            if (movie.getFavoriteNumber() != 0) {
+            // if the movie was added to favorite
+            if (movie.getFavoriteNumber() > 0) {
                 favoriteMoviesList.add(movie);
             }
         }
@@ -117,17 +116,21 @@ public final class MoviesRepo {
     }
 
     /**
-     * Get a show list of all viewed movies
-     * by the users
+     * Get a show list of all viewed movies by the users
      * @return the viewed list of shows
      */
     public ArrayList<Show> getViewedMovies() {
         ArrayList<Show> viewedMoviesList = new ArrayList<>();
         for (Movie movie : moviesData) {
-            if (movie.getViewNumber() != 0) {
+            // if the movie was viewed
+            if (movie.getViewNumber() > 0) {
                 viewedMoviesList.add(movie);
             }
         }
         return viewedMoviesList;
+    }
+
+    public List<Movie> getMoviesData() {
+        return moviesData;
     }
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Information about a tv show
  */
-public class Serial extends Show {
+public final class Serial extends Show {
     /**
      * Number of seasons
      */
@@ -41,9 +41,9 @@ public class Serial extends Show {
      * @param seasonNumber the number of the season
      * @param grade the rating
      */
-    public void addSeasonRating(int seasonNumber, double grade) {
+    public void addSeasonRating(final int seasonNumber, final double grade) {
         for (Season season : seasons) {
-            if (seasonNumber == season.getCurrentSeason()){
+            if (seasonNumber == season.getCurrentSeason()) {
                 season.getRatings().add(grade);
                 return;
             }
@@ -52,7 +52,7 @@ public class Serial extends Show {
 
     /**
      * Get the average rating of a serial
-     * @return the average rating of a serial
+     * @return the average rating
      */
     public double getAverageRating() {
         double sumOfGrades = 0;

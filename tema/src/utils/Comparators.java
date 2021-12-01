@@ -11,7 +11,7 @@ public final class Comparators {
     }
 
     /**
-     * Sort the users list by rating and by name in ascending order
+     * Sort the users list by given ratings and by name in ascending order
      */
     public static class SortUserByRatingAsc implements Comparator<User> {
         /**
@@ -33,7 +33,7 @@ public final class Comparators {
     }
 
     /**
-     * Sort the users list by rating and by name in descending order
+     * Sort the users list by given ratings and by name in descending order
      */
     public static class SortUserByRatingDesc implements Comparator<User> {
         /**

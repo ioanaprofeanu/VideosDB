@@ -27,7 +27,7 @@ public abstract class Show {
      */
     private int viewNumber;
     /**
-     * The number of users who liked the show
+     * The number of users who added the show to favorites
      */
     private int favoriteNumber;
 
@@ -41,8 +41,18 @@ public abstract class Show {
         this.favoriteNumber = 0;
     }
 
+    /**
+     * Abstract classes for getting the average rating
+     * <p>
+     * It will be implemented in the children classes (Movie & Serial)
+     */
     public abstract double getAverageRating();
 
+    /**
+     * Abstract classes for getting the duration
+     * <p>
+     * It will be implemented in the children classes (Movie & Serial)
+     */
     public abstract int getDuration();
 
     /**
@@ -59,27 +69,27 @@ public abstract class Show {
         favoriteNumber++;
     }
 
-    public int getViewNumber() {
+    public final int getViewNumber() {
         return viewNumber;
     }
 
-    public int getFavoriteNumber() {
+    public final int getFavoriteNumber() {
         return favoriteNumber;
     }
 
-    public String getTitle() {
+    public final String getTitle() {
         return title;
     }
 
-    public int getYear() {
+    public final int getYear() {
         return year;
     }
 
-    public ArrayList<String> getCast() {
+    public final ArrayList<String> getCast() {
         return cast;
     }
 
-    public ArrayList<String> getGenres() {
+    public final ArrayList<String> getGenres() {
         return genres;
     }
 }

@@ -21,27 +21,28 @@ public class QueryUser {
         message.append("Query result: [");
         // get a list of all reviewers user
         ArrayList<User> reviewersList = usersRepo.getReviewersUsers();
-        int numberListElem = inputAction.getNumber();
 
-        // sort in ascending or descending order by rating and by name
+        // sort in ascending or descending order by the number of given ratings and by name
         if (inputAction.getSortType().equals(Constants.ASC)) {
             Collections.sort(reviewersList, new Comparators.SortUserByRatingAsc());
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(reviewersList, new Comparators.SortUserByRatingDesc());
         }
 
+        int numberListElem = inputAction.getNumber();
         // if the list is smaller than the wanted size
         if (reviewersList.size() < numberListElem) {
             numberListElem = reviewersList.size();
         }
 
-        // print username
+        // print the wanted number of usernames
         for (int i = 0; i < numberListElem; i++) {
             message.append(reviewersList.get(i).getUsername());
             if (i < numberListElem - 1) {
                 message.append(", ");
             }
         }
+
         message.append("]");
         return message.toString();
     }

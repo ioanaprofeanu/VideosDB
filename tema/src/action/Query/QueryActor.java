@@ -75,12 +75,13 @@ public class QueryActor {
             }
         }
 
-        // sort in ascending or descending order by awards and by name
+        // sort in ascending or descending order by the number of won awards and by name
         if (inputAction.getSortType().equals(Constants.ASC)) {
             Collections.sort(filterSortedList, new Comparators.SortActorByAwardAsc());
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(filterSortedList, new Comparators.SortActorByAwardDesc());
         }
+
         return filterSortedList;
     }
 
@@ -101,14 +102,14 @@ public class QueryActor {
         List<String> wordsList = inputAction.getFilters().
                 get(Constants.WORDS_FIELD_FILTERS);
 
-        // for each actor from the sorted actors list
+        // for each actor from the actors list
         for (Actor actor : actorsList) {
             // if the input words list is not null
             if (wordsList.get(0) != null) {
                 // for each word in the list
                 for (String word : wordsList) {
                     // check if the current actor's description
-                    // contains the given word; otherwise,
+                    // contains the given word, using regex; otherwise,
                     // remove it from the filtered and sorted list
                     String regex = "[ !?.,':;-]" + word + "[ !?.,':;-]";
                     Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
@@ -126,6 +127,7 @@ public class QueryActor {
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(filteredSortedList, new Comparators.SortActorByNameDesc());
         }
+
         return filteredSortedList;
     }
 
@@ -143,10 +145,11 @@ public class QueryActor {
                              final String queryType) {
         StringBuilder message = new StringBuilder();
         message.append("Query result: [");
-        // build an arraylist containing the shows sorted by query type,
-        // which have the wanted genre & year
+        // build an arraylist containing the actors sorted by query type
         ArrayList<Actor> finalSortedActors;
 
+        // for each query type, call the method that returns the filtered
+        // and sorted list of actors
         switch (queryType) {
             case Constants.AVERAGE -> {
                 finalSortedActors = getAverageActorList(inputAction,
@@ -163,21 +166,20 @@ public class QueryActor {
             }
         }
 
-
         int numberListElem = inputAction.getNumber();
-
         // if the list is smaller than the wanted size
         if (finalSortedActors.size() < numberListElem) {
             numberListElem = finalSortedActors.size();
         }
 
-        // print titles
+        // print the wanted number of actors' name
         for (int i = 0; i < numberListElem; i++) {
             message.append(finalSortedActors.get(i).getName());
             if (i < numberListElem - 1) {
                 message.append(", ");
             }
         }
+
         message.append("]");
         return message.toString();
     }

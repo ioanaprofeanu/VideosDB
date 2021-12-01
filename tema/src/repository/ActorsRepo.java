@@ -27,7 +27,7 @@ public final class ActorsRepo {
      * @param moviesRepo the movies database
      * @param serialsRepo the serials database
      */
-    public void setActorsRating(final MoviesRepo moviesRepo, SerialsRepo serialsRepo) {
+    public void setActorsRating(final MoviesRepo moviesRepo, final SerialsRepo serialsRepo) {
         for (Actor actor : actorsData) {
             actor.setAverageActorRating(moviesRepo, serialsRepo);
         }
@@ -40,6 +40,7 @@ public final class ActorsRepo {
     public ArrayList<Actor> getRatedActors() {
         ArrayList<Actor> ratedActorsList = new ArrayList<>();
         for (Actor actor : actorsData) {
+            // if the actor is rated
             if (actor.getRating() > 0) {
                 ratedActorsList.add(actor);
             }

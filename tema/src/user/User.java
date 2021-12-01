@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Information about a user
  */
-public class User {
+public final class User {
     /**
      * User's username
      */
@@ -41,8 +41,7 @@ public class User {
     /**
      * Check if a show was viewed by a user
      * @param title the title of the show
-     * @return ture if the show has already been viewed,
-     * false otherwise
+     * @return ture if the show has already been viewed, false otherwise
      */
     public boolean viewedShow(final String title) {
         for (Map.Entry<String, Integer> entry : history.entrySet()) {
@@ -56,8 +55,7 @@ public class User {
     }
 
     /**
-     * add or increase the views of a show
-     * if the show doesn't exist, add entry
+     * Add or increase the views of a show; if the show doesn't exist, add entry
      * @param title the title of the show
      */
     public void addHistoryViews(final String title) {
@@ -69,19 +67,12 @@ public class User {
     }
 
     /**
+     * Get the number of times a user has watched a show
      * @param title the title of the show
-     * @return the number of times a show was
-     * viewed by the user
+     * @return the number of views
      */
     public int numberOfHistoryViews(final String title) {
         return this.history.get(title);
-    }
-
-    /**
-     * @return the number of shows rated my a user
-     */
-    public int numberOfRatedShows() {
-        return ratedMovies.size();
     }
 
     public String getUsername() {

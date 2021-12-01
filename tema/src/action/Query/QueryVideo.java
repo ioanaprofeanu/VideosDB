@@ -18,11 +18,11 @@ public class QueryVideo {
      * @param showList an input show list
      * @return the show list filtered by genre and year
      */
-    public ArrayList<Show> filteredSortedShows(final ActionInputData inputAction,
+    public ArrayList<Show> filteredShows(final ActionInputData inputAction,
                                                final ArrayList<Show> showList) {
         // initialise the filtered and sorted show list as a copy
         // of the input show list
-        ArrayList<Show> filteredSortedList = new ArrayList<>(showList);
+        ArrayList<Show> filteredList = new ArrayList<>(showList);
         // get the filters genre and year lists
         List<String> genreList = inputAction.getFilters().get(Constants.GENRE_FIELD_FILTERS);
         List<String> yearList = inputAction.getFilters().get(Constants.YEAR_FIELD_FILTERS);
@@ -33,11 +33,10 @@ public class QueryVideo {
             if (genreList.get(0) != null) {
                 // for each genre in the genre list
                 for (String genre : genreList) {
-                    // check if the current show contains the
-                    // genre in its genre list; otherwise, remove
-                    // it from the filtered and sorted list
+                    // check if the current show contains the genre in its genre list;
+                    // otherwise, remove it from the filtered and sorted list
                     if (!show.getGenres().contains(genre)) {
-                        filteredSortedList.remove(show);
+                        filteredList.remove(show);
                     }
                 }
             }
@@ -45,16 +44,16 @@ public class QueryVideo {
             if (yearList.get(0) != null) {
                 // for each year in the year list
                 for (String year : yearList) {
-                    // check if the year matches the show's year;
-                    // otherwise, remove it from the filtered and
-                    // sorted list
+                    // check if the year matches the show's year; otherwise,
+                    // remove it from the filtered and sorted list
                     if (!Integer.toString(show.getYear()).equals(year)) {
-                        filteredSortedList.remove(show);
+                        filteredList.remove(show);
                     }
                 }
             }
         }
-        return filteredSortedList;
+
+        return filteredList;
     }
 
     /**
@@ -71,9 +70,9 @@ public class QueryVideo {
         // get the rated movies or serials list, filter it and add it
         // to the new list, depending on the object type of the input action
         if (inputAction.getObjectType().equals(Constants.MOVIES)) {
-            sortedShows.addAll(filteredSortedShows(inputAction, moviesRepo.getRatedMovies()));
+            sortedShows.addAll(filteredShows(inputAction, moviesRepo.getRatedMovies()));
         } else if (inputAction.getObjectType().equals(Constants.SHOWS)) {
-            sortedShows.addAll(filteredSortedShows(inputAction, serialsRepo.getRatedSerials()));
+            sortedShows.addAll(filteredShows(inputAction, serialsRepo.getRatedSerials()));
         }
 
         // sort in ascending or descending order by rating and by name
@@ -82,6 +81,7 @@ public class QueryVideo {
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(sortedShows, new Comparators.SortVideoByRatingNameDesc());
         }
+
         return sortedShows;
     }
 
@@ -99,9 +99,9 @@ public class QueryVideo {
         // get the favorite movies or serials list, filter it and add it
         // to the new list, depending on the object type of the input action
         if (inputAction.getObjectType().equals(Constants.MOVIES)) {
-            sortedShows.addAll(filteredSortedShows(inputAction, moviesRepo.getFavoriteMovies()));
+            sortedShows.addAll(filteredShows(inputAction, moviesRepo.getFavoriteMovies()));
         } else if (inputAction.getObjectType().equals(Constants.SHOWS)) {
-            sortedShows.addAll(filteredSortedShows(inputAction, serialsRepo.getFavoriteSerials()));
+            sortedShows.addAll(filteredShows(inputAction, serialsRepo.getFavoriteSerials()));
         }
 
         // sort in ascending or descending order by favorite and by name
@@ -110,6 +110,7 @@ public class QueryVideo {
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(sortedShows, new Comparators.SortVideoByFavoriteNameDesc());
         }
+
         return sortedShows;
     }
 
@@ -127,9 +128,9 @@ public class QueryVideo {
         // get all movies or serials list, filter it and add it
         // to the new list, depending on the object type of the input action
         if (inputAction.getObjectType().equals(Constants.MOVIES)) {
-            sortedShows.addAll(filteredSortedShows(inputAction, moviesRepo.getMoviesShowData()));
+            sortedShows.addAll(filteredShows(inputAction, moviesRepo.getMoviesShowData()));
         } else if (inputAction.getObjectType().equals(Constants.SHOWS)) {
-            sortedShows.addAll(filteredSortedShows(inputAction, serialsRepo.getSerialShowData()));
+            sortedShows.addAll(filteredShows(inputAction, serialsRepo.getSerialShowData()));
         }
 
         // sort in ascending or descending order by duration and by name
@@ -138,6 +139,7 @@ public class QueryVideo {
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(sortedShows, new Comparators.SortVideoByDurationNameDesc());
         }
+
         return sortedShows;
     }
 
@@ -155,9 +157,9 @@ public class QueryVideo {
         // get the viewed movies or serials list, filter it and add it
         // to the new list, depending on the object type of the input action
         if (inputAction.getObjectType().equals(Constants.MOVIES)) {
-            sortedShows.addAll(filteredSortedShows(inputAction, moviesRepo.getViewedMovies()));
+            sortedShows.addAll(filteredShows(inputAction, moviesRepo.getViewedMovies()));
         } else if (inputAction.getObjectType().equals(Constants.SHOWS)) {
-            sortedShows.addAll(filteredSortedShows(inputAction, serialsRepo.getViewedSerials()));
+            sortedShows.addAll(filteredShows(inputAction, serialsRepo.getViewedSerials()));
         }
 
         // sort in ascending or descending order by views and by name
@@ -166,6 +168,7 @@ public class QueryVideo {
         } else if (inputAction.getSortType().equals(Constants.DESC)) {
             Collections.sort(sortedShows, new Comparators.SortVideoByViewsNameDesc());
         }
+
         return sortedShows;
     }
     /**
@@ -173,6 +176,7 @@ public class QueryVideo {
      * @param inputAction the data of the action
      * @param moviesRepo the movies database
      * @param serialsRepo the serials database
+     * @param queryType the input query type
      * @return the output message
      */
     public String applyQuery(final ActionInputData inputAction, final MoviesRepo moviesRepo,
@@ -182,6 +186,9 @@ public class QueryVideo {
         // build an arraylist containing the shows sorted by query type,
         // which have the wanted genre & year
         ArrayList<Show> finalSortedShows = new ArrayList<>();
+
+        // for each query type, call the method that returns the filtered
+        // and sorted list of shows
         switch (queryType) {
             case Constants.RATINGS -> {
                 finalSortedShows = getRatingsShowList(inputAction, moviesRepo, serialsRepo);
@@ -206,7 +213,7 @@ public class QueryVideo {
             numberListElem = finalSortedShows.size();
         }
 
-        // print titles
+        // print the wanted number of show titles
         for (int i = 0; i < numberListElem; i++) {
             message.append(finalSortedShows.get(i).getTitle());
             if (i < numberListElem - 1) {

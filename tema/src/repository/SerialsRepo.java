@@ -13,7 +13,7 @@ public final class SerialsRepo {
     /**
      * List of serials aka tv shows
      */
-    private final List<Serial> serialsData;
+    private final ArrayList<Serial> serialsData;
 
     public SerialsRepo(final Input input) {
         serialsData = new ArrayList<>();
@@ -28,12 +28,15 @@ public final class SerialsRepo {
     /**
      * Initialises the view number of all serials, according
      * to each user's view count
-     * @param usersRepo
+     * @param usersRepo the users database
      */
     public void initialiseViewNumber(final UsersRepo usersRepo) {
         for (Serial serial : serialsData) {
             for (User user : usersRepo.getUsersData()) {
+                // if the serial was watched by the user
                 if (user.getHistory().containsKey(serial.getTitle())) {
+                    // increase the view number for as many times as the view
+                    // number is in the history hashmap
                     for (int i = 0; i < user.getHistory().get(serial.getTitle()); i++) {
                         serial.increaseViewNumber();
                     }
@@ -45,20 +48,17 @@ public final class SerialsRepo {
     /**
      * Initialises the favorite number of all serials, according
      * to each user's view count
-     * @param usersRepo
+     * @param usersRepo the users database
      */
     public void initialiseFavoriteNumber(final UsersRepo usersRepo) {
         for (Serial serial : serialsData) {
             for (User user : usersRepo.getUsersData()) {
+                // if the serial is within the user's favorite list
                 if (user.getFavoriteMovies().contains(serial.getTitle())) {
                     serial.increaseFavoriteNumber();
                 }
             }
         }
-    }
-
-    public List<Serial> getSerialsData() {
-        return serialsData;
     }
 
     /**
@@ -83,6 +83,7 @@ public final class SerialsRepo {
     public ArrayList<Show> getRatedSerials() {
         ArrayList<Show> ratedSerialList = new ArrayList<>();
         for (Serial serial : serialsData) {
+            // if the serial was rated
             if (serial.getAverageRating() > 0) {
                 ratedSerialList.add(serial);
             }
@@ -98,7 +99,8 @@ public final class SerialsRepo {
     public ArrayList<Show> getFavoriteSerials() {
         ArrayList<Show> favoriteSerialList = new ArrayList<>();
         for (Serial serial : serialsData) {
-            if (serial.getFavoriteNumber() != 0) {
+            // if the serial was added to favorite
+            if (serial.getFavoriteNumber() > 0) {
                 favoriteSerialList.add(serial);
             }
         }
@@ -120,10 +122,15 @@ public final class SerialsRepo {
     public ArrayList<Show> getViewedSerials() {
         ArrayList<Show> viewedSerialList = new ArrayList<>();
         for (Serial serial : serialsData) {
-            if (serial.getViewNumber() != 0) {
+            // if the serial was viewed
+            if (serial.getViewNumber() > 0) {
                 viewedSerialList.add(serial);
             }
         }
         return viewedSerialList;
+    }
+
+    public List<Serial> getSerialsData() {
+        return serialsData;
     }
 }

@@ -34,8 +34,8 @@ public final class Season {
 
     /**
      * Get the average rating of a season
-     * Iterate through the ratings list and
-     * calculate the average
+     * <p>
+     * Iterate through the ratings list and calculate the average
      * @return
      */
     public double getAverageSeasonRating() {

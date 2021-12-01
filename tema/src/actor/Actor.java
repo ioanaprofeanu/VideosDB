@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Information about an actor, retrieved from parsing the input test files
  */
-public class Actor {
+public final class Actor {
     /**
      * actor name
      */
@@ -44,8 +44,7 @@ public class Actor {
     }
 
     /**
-     * Set the average rating of all the shows
-     * an actor plays in
+     * Set the average rating of all the rated shows an actor plays in
      * @param moviesRepo the movies database
      * @param serialsRepo the serials database
      */
